@@ -17,7 +17,6 @@ export class UserService {
 
 	create(user: User) {
 		return this.usersCollection.add(user);
-		//return this.af.database.list(`/users`).push(user);
 	}
 
 }
