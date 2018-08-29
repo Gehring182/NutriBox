@@ -20,7 +20,7 @@ export class SignupPage {
   		public navParams: NavParams,
   		public userService: UserService,
   		public authService: AuthService
-  		) {
+  	) {
 
   		let emailRegularExpression = /^[a-zA-Z0-9][a-zA-Z0-9\._-]+@([a-zA-Z0-9\._-]+\.)[a-zA-Z-0-9]{2,3}/;
 
@@ -33,7 +33,7 @@ export class SignupPage {
   		});
   	}
 
-  	onSubmit(): void {
+  	onSubmit() {
   		//cria o usuário
   		this.userService.create(this.signupForm.value).then(
   			() => {

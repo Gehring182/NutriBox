@@ -10,7 +10,10 @@ export class UserService {
 	users: Observable<any[]>;
 	usersCollection: AngularFirestoreCollection<User>;
 
-	constructor(public afs: AngularFirestore, public http: Http) {
+	constructor(
+		public afs: AngularFirestore, 
+		public http: Http
+	) {
 		this.usersCollection = afs.collection('users');
 		this.users = this.usersCollection.valueChanges();
 	}
