@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Loading, LoadingController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../providers/user/user';
 import { AuthService } from '../../providers/auth/auth';
@@ -19,7 +19,8 @@ export class SignupPage {
   		public navCtrl: NavController, 
   		public navParams: NavParams,
   		public userService: UserService,
-  		public authService: AuthService
+  		public authService: AuthService,
+  		public loadingCtrl: LoadingController
   	) {
 
   		let emailRegularExpression = /^[a-zA-Z0-9][a-zA-Z0-9\._-]+@([a-zA-Z0-9\._-]+\.)[a-zA-Z-0-9]{2,3}/;
@@ -34,6 +35,7 @@ export class SignupPage {
   	}
 
   	onSubmit() {
+  		let loading: Loading = this.showLoading();
   		//cria o usuário
   		this.userService.create(this.signupForm.value).then(
   			() => {
@@ -43,8 +45,19 @@ export class SignupPage {
 		  			password: this.signupForm.value.password
 		  		});
   				console.log('Usuário cadastrado!');
+  				loading.dismiss();
   				this.navCtrl.push(HomePage);
   		});
+  	}
+
+  	showLoading(): Loading {
+  		let loading: Loading = this.loadingCtrl.create({
+  			content: 'Por favor, aguarde...'
+  		});
+
+  		loading.present();
+
+  		return loading;
   	}
 
 }

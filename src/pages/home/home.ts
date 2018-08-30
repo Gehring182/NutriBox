@@ -40,7 +40,7 @@ export class HomePage {
 		}
 
 		this.auth.signInWithEmail(credentials).then(
-			() => console.log("Sucesso, usuário pode logar."),
+			() => console.log(this.auth.user.uid),
 			error => this.loginError = error.message
 		);
 

@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content padding>
-	
+
 	<form [formGroup]="loginForm" (ngSubmit)="onLogin(); $event.preventDefault()">
 
 		<ion-item>
@@ -24,9 +24,9 @@
 		
 		<br>
 
-		<button ion-button full type="submit" [disabled]="loginForm.invalid">Login</button>
-
 		<div class="form-error">{{loginError}}</div>
+
+		<button ion-button full type="submit" [disabled]="loginForm.invalid">Login</button>
 
 	</form>
 
