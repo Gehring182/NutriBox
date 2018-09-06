@@ -13,6 +13,7 @@ import { HomePage } from '../../pages/home/home';
 export class SignupPage {
 
 	signupForm: FormGroup;
+    signupError: string;
 
   	constructor(
   		public formBuilder: FormBuilder, 
@@ -38,16 +39,20 @@ export class SignupPage {
   		let loading: Loading = this.showLoading();
   		//cria o usuário
   		this.userService.create(this.signupForm.value).then(
-  			() => {
+  			(uid) => {
   				//cadastra autenticação
   				this.authService.createAuthUser({
 		  			email: this.signupForm.value.email,
 		  			password: this.signupForm.value.password
 		  		});
-  				console.log('Usuário cadastrado!');
+                this.userService.setUid(uid.id, this.authService.userUid);
   				loading.dismiss();
   				this.navCtrl.push(HomePage);
-  		});
+            },
+            error => {
+                loading.dismiss();
+                this.signupError = error.message;
+            });
   	}
 
   	showLoading(): Loading {
@@ -56,7 +61,6 @@ export class SignupPage {
   		});
 
   		loading.present();
-
   		return loading;
   	}
 

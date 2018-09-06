@@ -6,12 +6,15 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 
 import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SignupPage } from '../pages/signup/signup';
+import { MainPage } from '../pages/main/main';
+import { PatientPage } from '../pages/patient/patient';
 import { UserService } from '../providers/user/user';
 import { AuthService } from '../providers/auth/auth'; 
 
@@ -28,12 +31,15 @@ const firebaseAppConfig: FirebaseAppConfig = {
   declarations: [
     MyApp,
     HomePage,
-    SignupPage
+    SignupPage,
+    MainPage,
+    PatientPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseAppConfig),
+    AngularFireDatabaseModule,
     AngularFirestoreModule,
     HttpModule
   ],
@@ -41,7 +47,9 @@ const firebaseAppConfig: FirebaseAppConfig = {
   entryComponents: [
     MyApp,
     HomePage,
-    SignupPage
+    SignupPage,
+    MainPage,
+    PatientPage
   ],
   providers: [
     StatusBar,

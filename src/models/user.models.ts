@@ -4,5 +4,6 @@ export class User {
 		public birth: Date,
 		public email: string,
 		public password: string,
-		public crn: string){}
+		public crn: string,
+		public uid: string){}
 }
