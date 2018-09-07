@@ -44,8 +44,7 @@ export class SignupPage {
   				this.authService.createAuthUser({
 		  			email: this.signupForm.value.email,
 		  			password: this.signupForm.value.password
-		  		});
-                this.userService.setUid(uid.id, this.authService.userUid);
+		  		}, uid.id);
   				loading.dismiss();
   				this.navCtrl.push(HomePage);
             },

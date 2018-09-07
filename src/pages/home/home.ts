@@ -34,17 +34,32 @@ export class HomePage {
 
 	onLogin() {
 		let data = this.loginForm.value,
-			loading: Loading = this.showLoading();
-		
+			loading: Loading = this.showLoading(),
+			userData;
+
 		this.auth.signInWithEmail({
 			email: data.email,
 			password: data.password
 		}).then(
-			() => {
-				loading.dismiss();
-				this.navCtrl.setRoot(MainPage, {
-					uid: this.auth.user.uid
-				});
+			(user) => {
+				this.userService.getUserByAuthUid(user.user.uid).then(
+					(doc) => {
+						doc.forEach((user) => {
+							userData = user.doc.data();
+							if (userData.crn) {
+								loading.dismiss();
+								this.navCtrl.setRoot(MainPage, userData);	
+							} else {
+								loading.dismiss();
+								console.log("paciente!");
+							}
+						})
+					},
+					error => {
+		                loading.dismiss();
+		                //this.signupError = error.message;
+		            }
+				);
 			},
 			error => {
 				loading.dismiss();
@@ -62,9 +77,7 @@ export class HomePage {
   		let loading: Loading = this.loadingCtrl.create({
   			content: 'Por favor, aguarde...'
   		});
-
   		loading.present();
-
   		return loading;
   	}
 

@@ -15,8 +15,10 @@ export class MainPage {
 		public navParams: NavParams,
 		public userService: UserService
 	) {
-		//console.log(this.navParams.get('uid'));
-		this.userService.getUserByUid(this.navParams.get('uid')).then(data => {console.log(data)});
+		console.log(this.navParams.get('uid'));
+		console.log(this.navParams.get('crn'));
+		console.log(this.navParams.get('birth'));
+		//this.userService.getUserByUid(this.navParams.get('uid')).then(data => {console.log(data)});
 	}
 
 	ionViewDidLoad() {
