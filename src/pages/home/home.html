@@ -1,34 +1,28 @@
 <ion-header>
-
 	<ion-navbar>
-		<ion-title>
-		  NutriBox
-		</ion-title>
+		<ion-title>NutriBox</ion-title>
 	</ion-navbar>
-
 </ion-header>
 
 <ion-content padding>
-
 	<form [formGroup]="loginForm" (ngSubmit)="onLogin(); $event.preventDefault()">
-
 		<ion-item>
-			<ion-icon name="mail" item-left></ion-icon>
-			<ion-input type="email" placeholder="E-mail" formControlName="email"></ion-input>
+			<ion-label floating color="primary">E-mail</ion-label>
+			<ion-input type="email" formControlName="email"></ion-input>
 		</ion-item>
-
 		<ion-item>
-			<ion-icon name="lock" item-left></ion-icon>
-			<ion-input type="password" placeholder="Senha" formControlName="password"></ion-input>
+			<ion-label floating color="primary">Senha</ion-label>
+			<ion-input type="password" formControlName="password"></ion-input>
 		</ion-item>
-		
 		<br>
-
 		<div class="form-error">{{loginError}}</div>
-
-		<button ion-button full type="submit" [disabled]="loginForm.invalid">Login</button>
-
+		<button ion-button full round icon-end color="secondary" type="submit" [disabled]="loginForm.invalid">
+			Entrar
+			<ion-icon name="log-in"></ion-icon>
+		</button>
 	</form>
-
-	<button ion-button block (click)="onSignup()">Criar conta</button>
+	<br>
+	<ion-buttons end>
+		<button ion-button round outline (click)="onChooseProfile()">Primeiro acesso? Clique aqui!</button>
+	</ion-buttons>
 </ion-content>

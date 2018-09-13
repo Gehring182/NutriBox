@@ -15,6 +15,9 @@ import { HomePage } from '../pages/home/home';
 import { SignupPage } from '../pages/signup/signup';
 import { MainPage } from '../pages/main/main';
 import { PatientPage } from '../pages/patient/patient';
+import { ProfilePage } from '../pages/profile/profile';
+import { ChooseprofilePage } from '../pages/chooseprofile/chooseprofile';
+import { SignuppatientPage } from '../pages/signuppatient/signuppatient';
 import { UserService } from '../providers/user/user';
 import { AuthService } from '../providers/auth/auth'; 
 
@@ -33,7 +36,10 @@ const firebaseAppConfig: FirebaseAppConfig = {
     HomePage,
     SignupPage,
     MainPage,
-    PatientPage
+    PatientPage,
+    ProfilePage,
+    ChooseprofilePage,
+    SignuppatientPage
   ],
   imports: [
     BrowserModule,
@@ -49,7 +55,10 @@ const firebaseAppConfig: FirebaseAppConfig = {
     HomePage,
     SignupPage,
     MainPage,
-    PatientPage
+    PatientPage,
+    ProfilePage,
+    ChooseprofilePage,
+    SignuppatientPage
   ],
   providers: [
     StatusBar,

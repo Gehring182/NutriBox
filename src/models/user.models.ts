@@ -5,5 +5,6 @@ export class User {
 		public email: string,
 		public password: string,
 		public crn: string,
-		public uid: string){}
+		public uid: string,
+		public nutri: string){}
 }

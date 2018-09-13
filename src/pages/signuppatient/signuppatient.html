@@ -1,13 +1,13 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Informe seus dados</ion-title>
-  </ion-navbar>
+	<ion-navbar>
+		<ion-title>Informe seus dados</ion-title>
+	</ion-navbar>
 </ion-header>
 <ion-content padding>
 	<h1 text-center>
 		<ion-icon class="auth-icon" name="person-add" color="primary"></ion-icon>
 	</h1>
-	<form [formGroup]="signupForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+	<form [formGroup]="signupPatientForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
 		<ion-item>
 			<ion-label floating color="primary">Nome</ion-label>
 			<ion-input type="text" formControlName="name"></ion-input>
@@ -17,10 +17,6 @@
 			<ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="myDate" formControlName="birth"></ion-datetime>
 		</ion-item>
 		<ion-item>
-			<ion-label floating color="primary">CRN</ion-label>
-			<ion-input type="text" formControlName="crn"></ion-input>
-		</ion-item>
-		<ion-item>
 			<ion-label floating color="primary">E-mail</ion-label>
 			<ion-input type="email" formControlName="email"></ion-input>
 		</ion-item>
@@ -28,9 +24,9 @@
 			<ion-label floating color="primary">Senha</ion-label>
 			<ion-input type="password" formControlName="password"></ion-input>
 		</ion-item>
-		<div class="form-error">{{signupError}}</div>
+		<div class="form-error">{{signupPatientError}}</div>
 		<br>
-		<button ion-button full round icon-end color="secondary" type="submit" [disabled]="signupForm.invalid">
+		<button ion-button full round icon-end color="secondary" type="submit" [disabled]="signupPatientForm.invalid">
 			Confirmar
 			<ion-icon name="checkmark"></ion-icon>
 		</button>

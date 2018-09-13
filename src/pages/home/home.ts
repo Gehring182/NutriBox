@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Loading, LoadingController, NavController } from 'ionic-angular';
-import { SignupPage } from '../signup/signup';
 import { MainPage } from '../main/main';
+import { ProfilePage } from '../profile/profile';
+import { ChooseprofilePage } from '../chooseprofile/chooseprofile';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../providers/auth/auth';
 import { UserService } from '../../providers/user/user';
@@ -22,7 +23,6 @@ export class HomePage {
 		public userService: UserService,
   		public loadingCtrl: LoadingController
 	) {
-
 		let emailRegularExpression = /^[a-zA-Z0-9][a-zA-Z0-9\._-]+@([a-zA-Z0-9\._-]+\.)[a-zA-Z-0-9]{2,3}/;
 
   		this.loginForm = this.formBuilder.group({
@@ -51,7 +51,7 @@ export class HomePage {
 								this.navCtrl.setRoot(MainPage, userData);	
 							} else {
 								loading.dismiss();
-								console.log("paciente!");
+								this.navCtrl.setRoot(ProfilePage, userData);
 							}
 						})
 					},
@@ -69,8 +69,8 @@ export class HomePage {
 
 	}
 
-	onSignup() {
-		this.navCtrl.push(SignupPage);
+	onChooseProfile() {
+		this.navCtrl.push(ChooseprofilePage);
 	}
 
 	showLoading(): Loading {

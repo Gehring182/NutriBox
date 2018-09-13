@@ -29,11 +29,24 @@ export class UserService {
 		return this.usersCollection.add(user);
 	}
 
+	update(key: string, data: object) {
+		this.usersCollection.doc(key).update(data).then(() => {
+
+		});
+	}
+
 	setUid(key: string, uid: string) {
 		this.usersCollection.doc(key).update({
 			uid: uid
 		}).then(() => {
 
+		});
+	}
+
+	getUserByEmail(email: string) {
+		let refDb = this.afs.collection('users');
+		return refDb.ref.where('email', '==', email).get().then((documentSnapshot) => {
+			return documentSnapshot.docChanges();
 		});
 	}
 
@@ -52,6 +65,6 @@ export class UserService {
 		let refDb = this.afs.collection('users');
 		return refDb.ref.where('uid', '==', uid).get().then((documentSnapshot) => {
 			return documentSnapshot.docChanges();
-		})
+		});
 	}
 }
