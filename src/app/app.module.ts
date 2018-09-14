@@ -19,7 +19,8 @@ import { ProfilePage } from '../pages/profile/profile';
 import { ChooseprofilePage } from '../pages/chooseprofile/chooseprofile';
 import { SignuppatientPage } from '../pages/signuppatient/signuppatient';
 import { UserService } from '../providers/user/user';
-import { AuthService } from '../providers/auth/auth'; 
+import { EventService } from '../providers/event/event';
+import { AuthService } from '../providers/auth/auth';
 
 const firebaseAppConfig: FirebaseAppConfig = {
     apiKey: "AIzaSyB_WskBa3DkS1uXaYYK_oTdJgxGe-DMRdg",
@@ -31,42 +32,43 @@ const firebaseAppConfig: FirebaseAppConfig = {
 };
 
 @NgModule({
-  declarations: [
-    MyApp,
-    HomePage,
-    SignupPage,
-    MainPage,
-    PatientPage,
-    ProfilePage,
-    ChooseprofilePage,
-    SignuppatientPage
-  ],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseAppConfig),
-    AngularFireDatabaseModule,
-    AngularFirestoreModule,
-    HttpModule
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    HomePage,
-    SignupPage,
-    MainPage,
-    PatientPage,
-    ProfilePage,
-    ChooseprofilePage,
-    SignuppatientPage
-  ],
-  providers: [
-    StatusBar,
-    SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UserService,
-    AuthService,
-    AngularFireAuth
-  ]
+    declarations: [
+        MyApp,
+        HomePage,
+        SignupPage,
+        MainPage,
+        PatientPage,
+        ProfilePage,
+        ChooseprofilePage,
+        SignuppatientPage
+    ],
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot(MyApp),
+        AngularFireModule.initializeApp(firebaseAppConfig),
+        AngularFireDatabaseModule,
+        AngularFirestoreModule,
+        HttpModule
+    ],
+    bootstrap: [IonicApp],
+    entryComponents: [
+        MyApp,
+        HomePage,
+        SignupPage,
+        MainPage,
+        PatientPage,
+        ProfilePage,
+        ChooseprofilePage,
+        SignuppatientPage
+    ],
+    providers: [
+        StatusBar,
+        SplashScreen,
+        {provide: ErrorHandler, useClass: IonicErrorHandler},
+        UserService,
+        EventService,
+        AuthService,
+        AngularFireAuth
+    ]
 })
 export class AppModule {}

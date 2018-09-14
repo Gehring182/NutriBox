@@ -3,6 +3,7 @@ import { Loading, LoadingController, IonicPage, NavController, NavParams, AlertC
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../providers/user/user';
 import { AuthService } from '../../providers/auth/auth';
+import { EventService } from '../../providers/event/event';
 import { HomePage } from '../../pages/home/home';
 
 @IonicPage()
@@ -21,6 +22,7 @@ export class SignuppatientPage {
   		public navParams: NavParams,
   		public userService: UserService,
   		public authService: AuthService,
+  		public eventService: EventService,
   		public loadingCtrl: LoadingController,
   		public alertCtrl: AlertController
 	) {
@@ -35,11 +37,10 @@ export class SignuppatientPage {
 	}
 
 	onSubmit() {
-  		let loading: Loading = this.showLoading(), userData;
+  		let loading: Loading = this.showLoading(), userData, authData, eventData;
 
   		this.userService.getUserByEmail(this.signupPatientForm.value.email).then(
   			(doc) => {
-  				debugger;
   				if (!doc.length) {
   					this.showAlert("Usuário não encontrado!", "O e-mail informado não foi previamente cadastrado por seu nutricionista.");
 					loading.dismiss();
@@ -53,11 +54,23 @@ export class SignuppatientPage {
 			  				return;
 						}
 
-						this.authService.createAuthUser({
+						authData = {
 				  			email: this.signupPatientForm.value.email,
 				  			password: this.signupPatientForm.value.password
-				  		}, user.doc.id);
+				  		};
+
+						this.authService.createAuthUser(authData, user.doc.id);
 						this.userService.update(user.doc.id, this.signupPatientForm.value);
+
+						eventData = {
+							type: 1,
+							eventdate: new Date,
+							uidevent: user.doc.id,
+							uidto: userData.nutri 
+						};
+
+						this.eventService.create(eventData);
+
 						loading.dismiss();
 			  			this.navCtrl.push(HomePage);
 					});
@@ -67,42 +80,7 @@ export class SignuppatientPage {
                 loading.dismiss();
                 //this.signupError = error.message;
             }
-
-
-
-
-			/*if (!doc) {
-				this.showAlert("Usuário não encontrado!", "O e-mail informado não foi previamente cadastrado por seu nutricionista.");
-				loading.dismiss();
-  				this.navCtrl.push(HomePage);
-  				return;
-			} 
-			
-			if (doc.uid) {
-				this.showAlert("Usuário já possui cadastro!", "O e-mail informado já foi cadastrado.");
-				loading.dismiss();
-  				this.navCtrl.push(HomePage);
-  				return;
-			}*/
 		);
-
-
-        //cria o usuário
-        /*this.userService.create(this.signupPatientForm.value).then(
-            (uid) => {
-  				//cadastra autenticação
-  				this.authService.createAuthUser({
-		  			email: this.signupPatientForm.value.email,
-		  			password: this.signupPatientForm.value.password
-		  		}, uid.id);
-  				loading.dismiss();
-  				this.navCtrl.push(HomePage);
-            },
-            error => {
-                loading.dismiss();
-                this.signupPatientError = error.message;
-            }
-        );*/
   	}
 
   	showAlert(title, message) {

@@ -16,11 +16,7 @@ export class MainPage {
 		public userService: UserService,
 		public loadingCtrl: LoadingController
 	) {
-		console.log(this.navParams.get('uid'));
-		console.log(this.navParams.get('crn'));
-		console.log(this.navParams.get('birth'));
-		console.log(this.navParams.get('name'));
-		
+		console.log(this.navParams.get('key'));
 	}
 
 	ionViewDidLoad() {
@@ -41,7 +37,7 @@ export class MainPage {
 	}
 
 	showPatientPrompt() {
-		let crn = this.navParams.get('crn');
+		let key = this.navParams.get('key');
 
 		const prompt = this.alertCtrl.create({
 			title: 'Novo paciente',
@@ -63,7 +59,7 @@ export class MainPage {
 				  	text: 'Confirmar',
 				  	handler: data => {
 				  		let loading: Loading = this.showLoading()
-				  		this.userService.create(Object.assign(data, {nutri: crn})).then(
+				  		this.userService.create(Object.assign(data, {nutri: key})).then(
 				  			(uid) => {
 				  				loading.dismiss();
 				  				this.showAlert(data.name);

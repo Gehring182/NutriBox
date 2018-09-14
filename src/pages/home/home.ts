@@ -29,7 +29,6 @@ export class HomePage {
   			email: ['', [Validators.compose([Validators.required, Validators.pattern(emailRegularExpression)])]],
   			password: ['', [Validators.required]]
   		});
-
 	}
 
 	onLogin() {
@@ -45,7 +44,7 @@ export class HomePage {
 				this.userService.getUserByAuthUid(user.user.uid).then(
 					(doc) => {
 						doc.forEach((user) => {
-							userData = user.doc.data();
+							userData = Object.assign(user.doc.data(), {key: user.doc.id});
 							if (userData.crn) {
 								loading.dismiss();
 								this.navCtrl.setRoot(MainPage, userData);	
@@ -66,7 +65,6 @@ export class HomePage {
 				this.loginError = error.message;
 			}
 		);
-
 	}
 
 	onChooseProfile() {
