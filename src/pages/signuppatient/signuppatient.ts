@@ -60,19 +60,17 @@ export class SignuppatientPage {
 				  		};
 
 						this.authService.createAuthUser(authData, user.doc.id);
-						this.userService.update(user.doc.id, this.signupPatientForm.value);
-
-						eventData = {
-							type: 1,
-							eventdate: new Date,
-							uidevent: user.doc.id,
-							uidto: userData.nutri 
-						};
-
-						this.eventService.create(eventData);
-
-						loading.dismiss();
-			  			this.navCtrl.push(HomePage);
+						this.userService.update(user.doc.id, this.signupPatientForm.value).then((bool) => {
+							eventData = {
+								type: 1,
+								eventdate: new Date,
+								uidevent: user.doc.id,
+								uidto: userData.nutri 
+							};
+							this.eventService.create(eventData);
+							loading.dismiss();
+			  				this.navCtrl.push(HomePage);	
+						});
 					});
   				}
 			},

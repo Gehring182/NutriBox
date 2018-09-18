@@ -25,8 +25,10 @@ export class UserService {
 		return this.usersCollection.add(user);
 	}
 
-	update(key: string, data: object) {
-		this.usersCollection.doc(key).update(data).then(() => {});
+	update(key: string, data: object): Promise<boolean>{
+		return this.usersCollection.doc(key).update(data).then(() => {
+			return true;
+		});
 	}
 
 	setUid(key: string, uid: string) {

@@ -6,5 +6,6 @@ export class User {
 		public password: string,
 		public crn: string,
 		public uid: string,
-		public nutri: string){}
+		public nutri: string,
+		public lastSession: Date){}
 }

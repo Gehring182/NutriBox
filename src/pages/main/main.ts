@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Loading, LoadingController, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { UserService } from '../../providers/user/user';
+import { AuthService } from '../../providers/auth/auth';
+import { EventService } from '../../providers/event/event';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -9,18 +12,41 @@ import { UserService } from '../../providers/user/user';
 })
 export class MainPage {
 
+	cntLastPatientsSignedUp: number;
+	lastPatientsSignedUp: string;
+	lastPatientsSignedUpNames: string;
+
 	constructor(
 		public navCtrl: NavController, 
 		public alertCtrl: AlertController,
 		public navParams: NavParams,
 		public userService: UserService,
+		public authService: AuthService,
+		public eventService: EventService,
 		public loadingCtrl: LoadingController
 	) {
-		console.log(this.navParams.get('key'));
+		this.cntLastPatientsSignedUp = 0;
+		this.lastPatientsSignedUpNames = "";
 	}
 
 	ionViewDidLoad() {
-		console.log('ionViewDidLoad MainPage');
+		let patients = [];
+
+		this.eventService.getLastUsersSignedUp(this.navParams.get('key'), this.navParams.get('lastSession'))
+		.then((doc) => {
+			doc.forEach((event) => {
+				this.cntLastPatientsSignedUp++;
+				patients.push(event.doc.data().uidevent);
+			});
+		}).then(() => {
+			patients.forEach((patient) => {
+				this.userService.getUserByUid(patient).then((doc) => {
+					this.lastPatientsSignedUpNames += doc.name + " \n ";
+				}).then((final) => {
+					this.lastPatientsSignedUp = (this.cntLastPatientsSignedUp == 1) ? " paciente se cadastrou." : " pacientes se cadastraram.";
+				});
+			});
+		});
 	}
 
 	get MainHeader() {
@@ -41,12 +67,12 @@ export class MainPage {
 
 		const prompt = this.alertCtrl.create({
 			title: 'Novo paciente',
-			message: "Por favor, informe o nome e o e-mail do paciente:",
+			message: "Por favor, informe o e-mail do paciente:",
 		  	inputs: [
 		  		{
-		  			name: 'name',
-		  			placeholder: 'Nome'
-		  		}, {
+			    	name: 'name',
+			    	placeholder: 'Nome'
+			    }, {
 			    	name: 'email',
 			    	placeholder: 'E-mail'
 			    }
@@ -76,6 +102,17 @@ export class MainPage {
 		prompt.present();
 	}
 
+	logOut() {
+		this.userService.update(this.navParams.get('key'), {
+			lastSession: new Date
+		}).then((bool) => { 
+			if (bool) {
+				this.authService.signOut();
+				this.navCtrl.setRoot(HomePage);	
+			}
+		});
+	}
+
 	showAlert(patientName) {
 	    const alert = this.alertCtrl.create({
 	      	title: 'Paciente adicionado!',
@@ -92,6 +129,4 @@ export class MainPage {
   		loading.present();
   		return loading;
   	}
-	
-
 }
