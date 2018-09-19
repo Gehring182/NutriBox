@@ -9,13 +9,42 @@
 	</ion-navbar>
 </ion-header>
 <ion-content>
-	<ion-card>
-		<ion-card-header>
+	<ion-card *ngIf="this.cntLastPatientsSignedUp > 0">
+		<ion-card-header color="primary">
 			Desde seu último acesso...
 		</ion-card-header>
 		<ion-card-content>
-			{{this.cntLastPatientsSignedUp}}{{this.lastPatientsSignedUp}}
+			<ion-row no-padding>
+				<ion-col col-3 text-center>
+					<span class="count">{{this.cntLastPatientsSignedUp}}</span>		
+				</ion-col>
+				<ion-col col-7 align-self-center>
+					<span class="desc">{{this.lastPatientsSignedUp}}</span>
+				</ion-col>
+				<ion-col col-2>
+					<button ion-button clear end (click)="showPatientsSigned()">Ver</button>
+				</ion-col>
+			</ion-row>		
 		</ion-card-content>
+	</ion-card>
+	<ion-card *ngIf="this.cntAllPatients > 0">
+		<ion-card-header color="primary">
+			Você possui...
+		</ion-card-header>
+		<ion-card-content>
+			<ion-row no-padding>
+				<ion-col col-3 text-center>
+					<span class="count">{{this.cntAllPatients}}</span>		
+				</ion-col>
+				<ion-col col-5 align-self-center>
+					<span class="desc">pacientes em acompanhamento.</span>
+				</ion-col>
+				<ion-col col-4>
+					<button ion-button clear end (click)="patientsListPage()">Ver todos</button>
+				</ion-col>
+			</ion-row>
+		</ion-card-content>
+	
 	</ion-card>
 </ion-content>
 <ion-footer>

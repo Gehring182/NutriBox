@@ -18,6 +18,8 @@ import { PatientPage } from '../pages/patient/patient';
 import { ProfilePage } from '../pages/profile/profile';
 import { ChooseprofilePage } from '../pages/chooseprofile/chooseprofile';
 import { SignuppatientPage } from '../pages/signuppatient/signuppatient';
+import { PatientlistPage } from '../pages/patientlist/patientlist';
+
 import { UserService } from '../providers/user/user';
 import { EventService } from '../providers/event/event';
 import { AuthService } from '../providers/auth/auth';
@@ -40,7 +42,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
         PatientPage,
         ProfilePage,
         ChooseprofilePage,
-        SignuppatientPage
+        SignuppatientPage,
+        PatientlistPage
     ],
     imports: [
         BrowserModule,
@@ -59,7 +62,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
         PatientPage,
         ProfilePage,
         ChooseprofilePage,
-        SignuppatientPage
+        SignuppatientPage,
+        PatientlistPage
     ],
     providers: [
         StatusBar,

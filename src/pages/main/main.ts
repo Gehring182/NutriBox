@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Loading, LoadingController, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { ModalController, Loading, LoadingController, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { UserService } from '../../providers/user/user';
 import { AuthService } from '../../providers/auth/auth';
 import { EventService } from '../../providers/event/event';
 import { HomePage } from '../home/home';
+import { PatientlistPage } from '../patientlist/patientlist';
 
 @IonicPage()
 @Component({
@@ -12,6 +13,8 @@ import { HomePage } from '../home/home';
 })
 export class MainPage {
 
+	cntAllPatients: number;
+	allPatientsData: object;
 	cntLastPatientsSignedUp: number;
 	lastPatientsSignedUp: string;
 	lastPatientsSignedUpNames: string;
@@ -23,30 +26,18 @@ export class MainPage {
 		public userService: UserService,
 		public authService: AuthService,
 		public eventService: EventService,
-		public loadingCtrl: LoadingController
+		public loadingCtrl: LoadingController,
+		public modalCtrl: ModalController
 	) {
+		this.cntAllPatients = 0;
+		this.allPatientsData = {};
 		this.cntLastPatientsSignedUp = 0;
 		this.lastPatientsSignedUpNames = "";
 	}
 
 	ionViewDidLoad() {
-		let patients = [];
-
-		this.eventService.getLastUsersSignedUp(this.navParams.get('key'), this.navParams.get('lastSession'))
-		.then((doc) => {
-			doc.forEach((event) => {
-				this.cntLastPatientsSignedUp++;
-				patients.push(event.doc.data().uidevent);
-			});
-		}).then(() => {
-			patients.forEach((patient) => {
-				this.userService.getUserByUid(patient).then((doc) => {
-					this.lastPatientsSignedUpNames += doc.name + " \n ";
-				}).then((final) => {
-					this.lastPatientsSignedUp = (this.cntLastPatientsSignedUp == 1) ? " paciente se cadastrou." : " pacientes se cadastraram.";
-				});
-			});
-		});
+		this.loadPatientsSignedUp();
+		this.loadAllPatients();
 	}
 
 	get MainHeader() {
@@ -100,6 +91,61 @@ export class MainPage {
 		});
 
 		prompt.present();
+	}
+
+	showPatientsSigned() {
+		let subTitle = this.cntLastPatientsSignedUp == 1 ? 
+			this.lastPatientsSignedUpNames + ' cadastrou-se recentemente.' :
+			this.lastPatientsSignedUpNames + ' cadastraram-se recentemente.';
+
+		const alert = this.alertCtrl.create({
+			title: 'Novos pacientes!',
+			subTitle: subTitle,
+			buttons: ['OK']
+		});
+
+		alert.present();
+	}
+
+	patientsListPage() {
+		const modal = this.modalCtrl.create(PatientlistPage, this.allPatientsData);
+    	modal.present();
+	}
+
+	loadPatientsSignedUp() {
+		let patients = [];
+
+		this.eventService.getLastUsersSignedUp(this.navParams.get('key'), this.navParams.get('lastSession'))
+		.then((doc) => {
+			doc.forEach((event) => {
+				this.cntLastPatientsSignedUp++;
+				patients.push(event.doc.data().uidevent);
+			});
+		}).then(() => {
+			patients.forEach((patient) => {
+				this.userService.getUserByUid(patient)
+				.then((doc) => {
+					if (this.lastPatientsSignedUpNames == "") {
+						this.lastPatientsSignedUpNames += doc.name;	
+					} else {
+						this.lastPatientsSignedUpNames += ", " + doc.name;	
+					}
+				}).then((final) => {
+					this.lastPatientsSignedUp = (this.cntLastPatientsSignedUp == 1) ? " paciente se cadastrou." : " pacientes se cadastraram.";
+				});
+			});
+		});
+	}
+
+	loadAllPatients() {
+		this.userService.getUserByNutriUid(this.navParams.get('key')).then(
+			(doc) => {
+				doc.forEach((user) => {
+					this.cntAllPatients++;
+					this.allPatientsData = Object.assign(this.allPatientsData, user.doc.data(), {key: user.doc.id});
+				})
+			}
+		);
 	}
 
 	logOut() {

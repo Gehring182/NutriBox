@@ -61,4 +61,11 @@ export class UserService {
 			return documentSnapshot.docChanges();
 		});
 	}
+
+	getUserByNutriUid(uid: string) {
+		let refDb = this.afs.collection('users');
+		return refDb.ref.where('nutri', '==', uid).get().then((documentSnapshot) => {
+			return documentSnapshot.docChanges();
+		});
+	}
 }
