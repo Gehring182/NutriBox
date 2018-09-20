@@ -47,7 +47,8 @@ export class EventService {
 	//Usuários que completaram cadastro, desde o ultimo acesso
 	getLastUsersSignedUp(uid: string, date: Date) {
 		let refDb = this.afs.collection('events');
-		return refDb.ref.where('type', '==', 1)
+		return refDb.ref
+			.where('type', '==', 1)
 			.where('uidto', '==', uid)
 			.where('eventdate', '>=', date).get().then((documentSnapshot) => {
 				return documentSnapshot.docChanges();

@@ -30,6 +30,7 @@ export class SignuppatientPage {
 
   		this.signupPatientForm = this.formBuilder.group({
   			name: ['', [Validators.required, Validators.minLength(3)]],
+  			gender: ['', [Validators.required]],
   			birth: ['', [Validators.required]],
   			email: ['', [Validators.compose([Validators.required, Validators.pattern(emailRegularExpression)])]],
   			password: ['', [Validators.required, Validators.minLength(6)]]
@@ -97,9 +98,5 @@ export class SignuppatientPage {
 
   		loading.present();
   		return loading;
-  	}
-
-  	ionViewDidLoad() {
-    	console.log('ionViewDidLoad SignuppatientPage');
   	}
 }

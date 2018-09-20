@@ -7,5 +7,6 @@ export class User {
 		public crn: string,
 		public uid: string,
 		public nutri: string,
-		public lastSession: Date){}
+		public lastSession: Date,
+		public gender: string){}
 }

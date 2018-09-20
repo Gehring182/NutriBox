@@ -14,7 +14,6 @@ import { PatientlistPage } from '../patientlist/patientlist';
 export class MainPage {
 
 	cntAllPatients: number;
-	allPatientsData: object;
 	cntLastPatientsSignedUp: number;
 	lastPatientsSignedUp: string;
 	lastPatientsSignedUpNames: string;
@@ -30,7 +29,6 @@ export class MainPage {
 		public modalCtrl: ModalController
 	) {
 		this.cntAllPatients = 0;
-		this.allPatientsData = {};
 		this.cntLastPatientsSignedUp = 0;
 		this.lastPatientsSignedUpNames = "";
 	}
@@ -94,9 +92,7 @@ export class MainPage {
 	}
 
 	showPatientsSigned() {
-		let subTitle = this.cntLastPatientsSignedUp == 1 ? 
-			this.lastPatientsSignedUpNames + ' cadastrou-se recentemente.' :
-			this.lastPatientsSignedUpNames + ' cadastraram-se recentemente.';
+		let subTitle = this.lastPatientsSignedUpNames;
 
 		const alert = this.alertCtrl.create({
 			title: 'Novos pacientes!',
@@ -108,8 +104,10 @@ export class MainPage {
 	}
 
 	patientsListPage() {
-		const modal = this.modalCtrl.create(PatientlistPage, this.allPatientsData);
-    	modal.present();
+		this.navCtrl.push(PatientlistPage, {
+			key: this.navParams.get('key'), 
+			name: this.navParams.get('name')
+		});
 	}
 
 	loadPatientsSignedUp() {
@@ -125,11 +123,7 @@ export class MainPage {
 			patients.forEach((patient) => {
 				this.userService.getUserByUid(patient)
 				.then((doc) => {
-					if (this.lastPatientsSignedUpNames == "") {
-						this.lastPatientsSignedUpNames += doc.name;	
-					} else {
-						this.lastPatientsSignedUpNames += ", " + doc.name;	
-					}
+					this.lastPatientsSignedUpNames += "- " + doc.name + "<br>";
 				}).then((final) => {
 					this.lastPatientsSignedUp = (this.cntLastPatientsSignedUp == 1) ? " paciente se cadastrou." : " pacientes se cadastraram.";
 				});
@@ -142,7 +136,6 @@ export class MainPage {
 			(doc) => {
 				doc.forEach((user) => {
 					this.cntAllPatients++;
-					this.allPatientsData = Object.assign(this.allPatientsData, user.doc.data(), {key: user.doc.id});
 				})
 			}
 		);
