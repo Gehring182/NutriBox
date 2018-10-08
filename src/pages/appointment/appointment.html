@@ -1,0 +1,28 @@
+<ion-header color="primary">
+  	<ion-navbar color="primary">
+    	<ion-title>{{ this.AppointmentHeader }}</ion-title>
+    	<ion-buttons end>
+			<button ion-button (click)="dismiss();"> 
+			  	x
+			</button>	
+		</ion-buttons>
+  	</ion-navbar>
+</ion-header>
+<ion-content padding>
+	<form [formGroup]="appointmentForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+		<ion-item>
+			<ion-label floating color="primary">Data da consulta</ion-label>
+			<ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="myDate" formControlName="appointmentDate"></ion-datetime>
+		</ion-item>
+		<ion-item>
+			<ion-label floating color="primary">Hora da consulta</ion-label>
+			<ion-datetime displayFormat="HH:mm" [(ngModel)]="myHour" formControlName="appointmentHour"></ion-datetime>
+		</ion-item>
+		<div class="form-error">{{signupPatientError}}</div>
+		<br>
+		<button ion-button full round icon-end color="secondary" type="submit" [disabled]="appointmentForm.invalid">
+			{{ this.reschedule ? "Reagendar" : "Agendar" }}
+			<ion-icon name="checkmark"></ion-icon>
+		</button>
+	</form>
+</ion-content>

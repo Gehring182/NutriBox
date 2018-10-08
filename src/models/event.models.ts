@@ -1,5 +1,6 @@
 //1 - Paciente se cadastrou
 //2 - Logout
+//
 export class Event {
 	constructor(
 		public type: number,

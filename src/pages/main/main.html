@@ -22,7 +22,9 @@
 					<span class="desc">{{this.lastPatientsSignedUp}}</span>
 				</ion-col>
 				<ion-col col-2>
-					<button ion-button clear end (click)="showPatientsSigned()">Ver</button>
+					<button ion-button icon-only clear (click)="showPatientsSigned()">
+						<ion-icon name="eye"></ion-icon>
+					</button>
 				</ion-col>
 			</ion-row>		
 		</ion-card-content>
@@ -40,14 +42,26 @@
 					<span class="desc">pacientes em acompanhamento.</span>
 				</ion-col>
 				<ion-col col-2>
-					<button ion-button clear end (click)="patientsListPage()">Ver</button>
+					<button ion-button icon-only clear (click)="patientsListPage()">
+						<ion-icon name="eye"></ion-icon>
+					</button>
 				</ion-col>
 			</ion-row>
 		</ion-card-content>
-	
+	</ion-card>
+	<ion-card *ngIf="this.cntAllPatients == 0">
+		<ion-card-header>
+			Você ainda não possui pacientes!
+		</ion-card-header>
+		<ion-card-content>
+			<button ion-button full round icon-end (click)="showPatientPrompt()">
+			  	Paciente 
+			  	<ion-icon name="add"></ion-icon>
+			</button>
+		</ion-card-content>
 	</ion-card>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="this.cntAllPatients > 0">
 	<ion-buttons end>
 		<button ion-button round icon-end (click)="showPatientPrompt()">
 		  	Paciente 

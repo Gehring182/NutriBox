@@ -1,25 +1,71 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { UserService } from '../../providers/user/user';
+import { AuthService } from '../../providers/auth/auth';
+import { HomePage } from '../home/home';
 
-/**
- * Generated class for the ProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import * as moment from 'moment';
 
 @IonicPage()
 @Component({
-  selector: 'page-profile',
-  templateUrl: 'profile.html',
+	selector: 'page-profile',
+	templateUrl: 'profile.html',
 })
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+	nutriData: any;
+	moment: any;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
-  }
+	constructor(
+		public navCtrl: NavController, 
+		public navParams: NavParams,
+		public userService: UserService,
+		public authService: AuthService
+	) {
+		this.nutriData = {};
+		this.moment = moment;
+		this.loadNutriData();
+	}
+	
+  	ionViewDidLoad() {
+  		
+  	}
 
+	loadNutriData() {
+		this.userService.getUserByUid(this.navParams.get("nutri")).then((doc) => {
+			this.nutriData = doc;
+		});
+	}
+
+	get Appointment() {
+		if (!this.navParams.get("appointmentDate")) {
+			return null;
+		}
+		
+		return this.moment(this.navParams.get("appointmentDate")).format("DD/MM/YYYY") + " ás " + this.navParams.get("appointmentTime");
+	}
+
+	get ProfileHeader() {
+		let hr = new Date().getHours();
+		if (hr > 18 || hr < 4) {
+			return "Boa noite " + this.navParams.get('name');
+		}
+
+		if (hr > 12) {
+			return "Boa tarde " + this.navParams.get('name');
+		}
+
+		return "Bom dia " + this.navParams.get('name'); 
+	}
+
+	logOut() {
+		this.userService.update(this.navParams.get('key'), {
+			lastSession: new Date
+		}).then((bool) => { 
+			if (bool) {
+				this.authService.signOut();
+				this.navCtrl.setRoot(HomePage);	
+			}
+		});
+	}
 }

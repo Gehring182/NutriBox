@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController, Loading, LoadingController, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { ToastController, Loading, LoadingController, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { UserService } from '../../providers/user/user';
 import { AuthService } from '../../providers/auth/auth';
 import { EventService } from '../../providers/event/event';
@@ -8,8 +8,8 @@ import { PatientlistPage } from '../patientlist/patientlist';
 
 @IonicPage()
 @Component({
-  selector: 'page-main',
-  templateUrl: 'main.html',
+	selector: 'page-main',
+	templateUrl: 'main.html'
 })
 export class MainPage {
 
@@ -26,7 +26,7 @@ export class MainPage {
 		public authService: AuthService,
 		public eventService: EventService,
 		public loadingCtrl: LoadingController,
-		public modalCtrl: ModalController
+		public toastCtrl: ToastController
 	) {
 		this.cntAllPatients = 0;
 		this.cntLastPatientsSignedUp = 0;
@@ -41,22 +41,23 @@ export class MainPage {
 	get MainHeader() {
 		let hr = new Date().getHours();
 		if (hr > 18 || hr < 4) {
-			return "Boa noite, " + this.navParams.get('name');
+			return "Boa noite " + this.navParams.get('name');
 		}
 
 		if (hr > 12) {
-			return "Boa tarde, " + this.navParams.get('name');
+			return "Boa tarde " + this.navParams.get('name');
 		}
 
-		return "Bom dia, " + this.navParams.get('name'); 
+		return "Bom dia " + this.navParams.get('name'); 
 	}
 
 	showPatientPrompt() {
-		let key = this.navParams.get('key');
+		let key = this.navParams.get('key'),
+			me = this;
 
 		const prompt = this.alertCtrl.create({
-			title: 'Novo paciente',
-			message: "Por favor, informe o e-mail do paciente:",
+			title: 'Adicionar paciente!',
+			message: "Informe os dados do paciente:",
 		  	inputs: [
 		  		{
 			    	name: 'name',
@@ -73,6 +74,11 @@ export class MainPage {
 				}, {
 				  	text: 'Confirmar',
 				  	handler: data => {
+				  		if (data.email == "") {
+				  			me.showToast("E-mail não preenchido!");
+				  			return false;
+				  		}
+
 				  		let loading: Loading = this.showLoading()
 				  		this.userService.create(Object.assign(data, {nutri: key})).then(
 				  			(uid) => {
@@ -89,6 +95,16 @@ export class MainPage {
 		});
 
 		prompt.present();
+	}
+
+	showToast(message) {
+		let toast = this.toastCtrl.create({
+			message: message,
+			duration: 2000,
+			position: 'top'
+		});
+
+		toast.present();
 	}
 
 	showPatientsSigned() {
@@ -112,23 +128,25 @@ export class MainPage {
 
 	loadPatientsSignedUp() {
 		let patients = [];
-
-		this.eventService.getLastUsersSignedUp(this.navParams.get('key'), this.navParams.get('lastSession'))
-		.then((doc) => {
-			doc.forEach((event) => {
-				this.cntLastPatientsSignedUp++;
-				patients.push(event.doc.data().uidevent);
-			});
-		}).then(() => {
-			patients.forEach((patient) => {
-				this.userService.getUserByUid(patient)
-				.then((doc) => {
-					this.lastPatientsSignedUpNames += "- " + doc.name + "<br>";
-				}).then((final) => {
-					this.lastPatientsSignedUp = (this.cntLastPatientsSignedUp == 1) ? " paciente se cadastrou." : " pacientes se cadastraram.";
+		
+		if (Boolean(this.navParams.get('lastSession'))) {
+			this.eventService.getLastUsersSignedUp(this.navParams.get('key'), this.navParams.get('lastSession'))
+			.then((doc) => {
+				doc.forEach((event) => {
+					this.cntLastPatientsSignedUp++;
+					patients.push(event.doc.data().uidevent);
+				});
+			}).then(() => {
+				patients.forEach((patient) => {
+					this.userService.getUserByUid(patient)
+					.then((doc) => {
+						this.lastPatientsSignedUpNames += "- " + doc.name + "<br>";
+					}).then((final) => {
+						this.lastPatientsSignedUp = (this.cntLastPatientsSignedUp == 1) ? " paciente se cadastrou." : " pacientes se cadastraram.";
+					});
 				});
 			});
-		});
+		}
 	}
 
 	loadAllPatients() {

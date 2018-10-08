@@ -8,5 +8,7 @@ export class User {
 		public uid: string,
 		public nutri: string,
 		public lastSession: Date,
-		public gender: string){}
+		public gender: string,
+		public appointmentDate: Date,
+		public appointmentTime: string){}
 }

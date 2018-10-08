@@ -1,18 +1,52 @@
-<!--
-  Generated template for the ProfilePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>profile</ion-title>
-  </ion-navbar>
-
+	<ion-navbar color="primary">
+		<ion-title>{{ this.ProfileHeader }}</ion-title>
+		<ion-buttons end>
+			<button ion-button round icon-end (click)="logOut()"> 
+			  	<ion-icon name="log-out"></ion-icon>
+			</button>	
+		</ion-buttons>
+	</ion-navbar>
 </ion-header>
-
-
-<ion-content padding>
-
+<ion-content>
+	<ion-card>
+		<ion-card-header *ngIf="this.nutriData.name">
+		    <span class="nutri">{{ (this.nutriData.gender == "Masculino" ? "Dr. " : "Dra. ") + this.nutriData.name }}</span>  
+		    <br>
+		    <br>
+		    <span class="title">CRN: </span>
+		    <span class="nutri">{{ this.nutriData.crn }}</span>
+		    <br>
+		    <br>
+		    <span class="title">Você tem consulta agendada para: </span>
+		    <br>
+		    <span class="nutri">{{ this.Appointment }}</span>
+		</ion-card-header>
+	    <ion-card-content>
+	    </ion-card-content>
+	</ion-card>
+	<ion-card>
+		<ion-card-content>
+			<ion-row no-padding>
+				<ion-col col-12 text-left>
+					<span class="alert">
+						Você possui uma avaliação para ser respondida! 
+						A avaliação ajuda o seu nutricionista a entender o seu perfil!
+					</span>
+					<button ion-button icon-start clear>
+					  	<ion-icon name="clipboard" large></ion-icon>
+					  	Responder a avaliação nutricional
+					</button>
+				</ion-col>
+			</ion-row>
+			<ion-row no-padding>
+				<ion-col col-12 text-left>
+					<button ion-button icon-start clear>
+					  	<ion-icon name="help" large></ion-icon>
+					  	Fazer uma pergunta ao nutricionista
+					</button>
+				</ion-col>
+			</ion-row>
+		</ion-card-content>
+	</ion-card>
 </ion-content>

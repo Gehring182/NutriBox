@@ -9,6 +9,7 @@ import { Event } from '../../models/event.models';
 export class EventService {
 
 	eventsCollection: AngularFirestoreCollection<Event>;
+	type: any;
 
 	constructor(
 		public afs: AngularFirestore, 
@@ -16,6 +17,12 @@ export class EventService {
 		public db: AngularFireDatabase
 	) {
 		this.eventsCollection = this.afs.collection('events');
+
+		//Tipos de evento
+		this.type = {
+			EVENT_USERS_SIGNEDUP: 1,
+			EVENT_RESCHEDULED: 2
+		};
 	}
 
 	create(event: Event) {
@@ -26,29 +33,24 @@ export class EventService {
 		this.eventsCollection.doc(key).update(data).then(() => {});
 	}
 
-	/*getUserByEmail(email: string) {
-		let refDb = this.afs.collection('users');
-		return refDb.ref.where('email', '==', email).get().then((documentSnapshot) => {
-			return documentSnapshot.docChanges();
-		});
-	}*/
-
-	//exemplo chamada
-	/*this.userService.getUserByUid(this.auth.user.uid).then((doc) => {
-		this.navCtrl.setRoot(MainPage, doc);
-	});*/
-	/*getUserByUid(uid: string) {
-		let refDb = this.afs.collection<User>('users').doc(uid);
-		return refDb.ref.get().then(function(documentSnapshot) {
-			return documentSnapshot.data();
-		});
-	}*/
-	//exemplo chamada em home.ts onLogin
 	//Usuários que completaram cadastro, desde o ultimo acesso
 	getLastUsersSignedUp(uid: string, date: Date) {
 		let refDb = this.afs.collection('events');
+
 		return refDb.ref
-			.where('type', '==', 1)
+			.where('type', '==', this.type.EVENT_USERS_SIGNEDUP)
+			.where('uidto', '==', uid)
+			.where('eventdate', '>=', date).get().then((documentSnapshot) => {
+				return documentSnapshot.docChanges();
+		});
+	}
+
+	//Consulta reagendada pelo nutricionista, desde o ultimo acesso
+	getAppointmentRescheduled(uid: string, date: Date) {
+		let refDb = this.afs.collection('events');
+
+		return refDb.ref
+			.where('type', '==', this.type.EVENT_RESCHEDULED)
 			.where('uidto', '==', uid)
 			.where('eventdate', '>=', date).get().then((documentSnapshot) => {
 				return documentSnapshot.docChanges();
