@@ -21,7 +21,8 @@ export class EventService {
 		//Tipos de evento
 		this.type = {
 			EVENT_USERS_SIGNEDUP: 1,
-			EVENT_RESCHEDULED: 2
+			EVENT_RESCHEDULED: 2,
+			EVENT_EVALUATION_FINISHED: 3
 		};
 	}
 

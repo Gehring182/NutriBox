@@ -20,10 +20,13 @@ import { ChooseprofilePage } from '../pages/chooseprofile/chooseprofile';
 import { SignuppatientPage } from '../pages/signuppatient/signuppatient';
 import { PatientlistPage } from '../pages/patientlist/patientlist';
 import { AppointmentPage } from '../pages/appointment/appointment';
+import { EvaluationPage } from '../pages/evaluation/evaluation';
 
 import { UserService } from '../providers/user/user';
 import { EventService } from '../providers/event/event';
 import { AuthService } from '../providers/auth/auth';
+import { EvaluationService } from '../providers/evaluation/evaluation';
+import { EvaluationUserService } from '../providers/evaluationuser/evaluationuser';
 
 const firebaseAppConfig: FirebaseAppConfig = {
     apiKey: "AIzaSyB_WskBa3DkS1uXaYYK_oTdJgxGe-DMRdg",
@@ -45,7 +48,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
         ChooseprofilePage,
         SignuppatientPage,
         PatientlistPage,
-        AppointmentPage
+        AppointmentPage,
+        EvaluationPage
     ],
     imports: [
         BrowserModule,
@@ -66,7 +70,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
         ChooseprofilePage,
         SignuppatientPage,
         PatientlistPage,
-        AppointmentPage
+        AppointmentPage,
+        EvaluationPage
     ],
     providers: [
         StatusBar,
@@ -75,6 +80,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
         UserService,
         EventService,
         AuthService,
+        EvaluationService,
+        EvaluationUserService,
         AngularFireAuth
     ]
 })

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UserService } from '../../providers/user/user';
 import { AuthService } from '../../providers/auth/auth';
 import { HomePage } from '../home/home';
+import { EvaluationPage } from '../evaluation/evaluation';
 
 import * as moment from 'moment';
 
@@ -24,14 +25,14 @@ export class ProfilePage {
 	) {
 		this.nutriData = {};
 		this.moment = moment;
-		this.loadNutriData();
+		this.fetchNutriData();
 	}
 	
   	ionViewDidLoad() {
   		
   	}
 
-	loadNutriData() {
+	fetchNutriData() {
 		this.userService.getUserByUid(this.navParams.get("nutri")).then((doc) => {
 			this.nutriData = doc;
 		});
@@ -42,7 +43,8 @@ export class ProfilePage {
 			return null;
 		}
 		
-		return this.moment(this.navParams.get("appointmentDate")).format("DD/MM/YYYY") + " ás " + this.navParams.get("appointmentTime");
+		return this.moment(this.navParams.get("appointmentDate")).format("DD/MM/YYYY") + " ás " 
+			+ this.navParams.get("appointmentTime");
 	}
 
 	get ProfileHeader() {
@@ -56,6 +58,10 @@ export class ProfilePage {
 		}
 
 		return "Bom dia " + this.navParams.get('name'); 
+	}
+
+	openEvaluation() {
+		this.navCtrl.push(EvaluationPage, {key: this.navParams.get('key'), nutri: this.navParams.get("nutri")});
 	}
 
 	logOut() {

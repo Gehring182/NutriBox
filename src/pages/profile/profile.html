@@ -8,18 +8,16 @@
 		</ion-buttons>
 	</ion-navbar>
 </ion-header>
-<ion-content>
+<ion-content no-padding>
 	<ion-card>
-		<ion-card-header *ngIf="this.nutriData.name">
-		    <span class="nutri">{{ (this.nutriData.gender == "Masculino" ? "Dr. " : "Dra. ") + this.nutriData.name }}</span>  
-		    <br>
-		    <br>
-		    <span class="title">CRN: </span>
+		<ion-card-header *ngIf="this.nutriData.name" text-wrap>
+		    <span class="title">{{ (this.nutriData.gender == "Masculino" ? "Dr. " : "Dra. ") }}</span>
+		    <span class="nutri">{{ this.nutriData.name }}</span>
+		    <span class="title"> - CRN </span>
 		    <span class="nutri">{{ this.nutriData.crn }}</span>
+		    <span class="title">{{ (this.nutriData.gender == "Masculino" ? " é o seu nutricionista." : " é a sua nutricionista.") }}</span>  
 		    <br>
-		    <br>
-		    <span class="title">Você tem consulta agendada para: </span>
-		    <br>
+		    <span class="title" *ngIf="this.Appointment">Vocês tem uma consulta agendada para </span>
 		    <span class="nutri">{{ this.Appointment }}</span>
 		</ion-card-header>
 	    <ion-card-content>
@@ -28,22 +26,27 @@
 	<ion-card>
 		<ion-card-content>
 			<ion-row no-padding>
-				<ion-col col-12 text-left>
+				<ion-col col-12 text-left no-padding>
 					<span class="alert">
-						Você possui uma avaliação para ser respondida! 
-						A avaliação ajuda o seu nutricionista a entender o seu perfil!
+						Agilize sua consulta, respondendo o questionário de frequência alimentar!
 					</span>
-					<button ion-button icon-start clear>
+				</ion-col>
+			</ion-row>
+			<br>
+			<ion-row no-padding>
+				<ion-col col-12 text-left no-padding>
+					<button ion-button icon-end round full (click)="openEvaluation()">
+					  	Responder questionário
 					  	<ion-icon name="clipboard" large></ion-icon>
-					  	Responder a avaliação nutricional
 					</button>
 				</ion-col>
 			</ion-row>
+			<br>
 			<ion-row no-padding>
-				<ion-col col-12 text-left>
-					<button ion-button icon-start clear>
+				<ion-col col-12 text-left no-padding>
+					<button ion-button icon-end round full>
+					  	Perguntar ao nutricionista
 					  	<ion-icon name="help" large></ion-icon>
-					  	Fazer uma pergunta ao nutricionista
 					</button>
 				</ion-col>
 			</ion-row>

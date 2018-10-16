@@ -1,0 +1,512 @@
+<ion-header>
+	<ion-navbar color="primary">
+		<ion-title>Avaliação nutricional</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<ion-slides #slides>
+		<ion-slide *ngFor="let question of questionList" radio-group>
+			<div class="fixed">
+				<ion-item color="light" text-start text-wrap>
+					<ion-label large>{{ question.header }}</ion-label>
+				</ion-item>
+				<ion-item *ngIf="question.opt0" text-wrap>
+					<ion-label>{{ question.opt0 }}</ion-label>
+					<ion-radio color="dark" (click)="optionChose({uidquestion: question.key, optchosen: 'opt0'})"></ion-radio>
+				</ion-item>
+				<ion-item *ngIf="question.opt1" text-wrap>
+				<ion-label>{{ question.opt1 }}</ion-label>
+					<ion-radio color="dark" (click)="optionChose({uidquestion: question.key, optchosen: 'opt1'})"></ion-radio>
+				</ion-item>
+				<ion-item *ngIf="question.opt2" text-wrap>
+					<ion-label>{{ question.opt2 }}</ion-label>
+					<ion-radio color="dark" (click)="optionChose({uidquestion: question.key, optchosen: 'opt2'})"></ion-radio>
+				</ion-item>
+				<ion-item *ngIf="question.opt3" text-wrap>
+					<ion-label>{{ question.opt3 }}</ion-label>
+					<ion-radio color="dark" (click)="optionChose({uidquestion: question.key, optchosen: 'opt3'})"></ion-radio>
+				</ion-item>
+				<ion-item *ngIf="question.opt4" text-wrap>
+					<ion-label>{{ question.opt4 }}</ion-label>
+					<ion-radio color="dark" (click)="optionChose({uidquestion: question.key, optchosen: 'opt4'})"></ion-radio>
+				</ion-item>
+				<ion-item *ngIf="question.opt5" text-wrap>
+					<ion-label>{{ question.opt5 }}</ion-label>
+					<ion-radio color="dark" (click)="optionChose({uidquestion: question.key, optchosen: 'opt5'})"></ion-radio>
+				</ion-item>
+				<ion-item *ngIf="question.opt6" text-wrap>
+					<ion-label>{{ question.opt6 }}</ion-label>
+					<ion-radio color="dark" (click)="optionChose({uidquestion: question.key, optchosen: 'opt6'})"></ion-radio>
+				</ion-item>
+				<ion-item *ngIf="question.opt7" text-wrap>
+					<ion-label>{{ question.opt7 }}</ion-label>
+					<ion-radio color="dark" (click)="optionChose({uidquestion: question.key, optchosen: 'opt7'})"></ion-radio>
+				</ion-item>
+				<ion-item *ngIf="question.desc0" text-wrap>
+					<ion-label floating color="primary">{{ question.desc0 }}</ion-label>
+					<ion-input type="text" ></ion-input>
+				</ion-item>
+				<ion-item *ngIf="question.desc1" text-wrap>
+					<ion-label floating color="primary">{{ question.desc1 }}</ion-label>
+					<ion-input type="text" ></ion-input>
+				</ion-item>
+				<ion-item *ngIf="question.desc2" text-wrap>
+					<ion-label floating color="primary">{{ question.desc2 }}</ion-label>
+					<ion-input type="text" ></ion-input>
+				</ion-item>
+				<ion-list *ngIf="question.group0" text-wrap>
+					<ion-item color="primary">
+						<ion-label>{{ question.group0 }}</ion-label>
+						<ion-checkbox color="light" [(ngModel)]="ckgroup0" end></ion-checkbox>
+					</ion-item>
+					<div *ngIf="ckgroup0">
+						<ion-item-group *ngFor="let option of question.group0opts">
+							<ion-item-divider color="secondary">
+							    {{ option.header }}
+							    <br>
+							    {{ "Porção média: " + option.tip }}
+							</ion-item-divider>
+							<ion-item padding-left>
+								<ion-label  color="dark">Consumo semanal</ion-label>
+								<ion-select>
+									<ion-option value="1">1</ion-option>
+									<ion-option value="2">2</ion-option>
+									<ion-option value="3">3</ion-option>
+									<ion-option value="4">4</ion-option>
+									<ion-option value="5">5</ion-option>
+									<ion-option value="6">6</ion-option>
+									<ion-option value="7">7</ion-option>
+									<ion-option value="8">8</ion-option>
+									<ion-option value="9">9</ion-option>
+									<ion-option value="10">10</ion-option>
+								</ion-select>
+							</ion-item>
+							<ion-item padding-left>
+								<ion-label  color="dark">Sua porção</ion-label>
+								<ion-select>
+									<ion-option value="P">P</ion-option>
+									<ion-option value="M">M</ion-option>
+									<ion-option value="G">G</ion-option>
+									<ion-option value="E">E</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-item-group>	
+					</div>
+				</ion-list>
+
+				<ion-list *ngIf="question.group1" text-wrap>
+					<ion-item color="primary">
+						<ion-label>{{ question.group1 }}</ion-label>
+						<ion-checkbox color="light" [(ngModel)]="ckgroup1" end></ion-checkbox>
+					</ion-item>
+					<div *ngIf="ckgroup1">
+						<ion-item-group *ngFor="let option of question.group1opts">
+							<ion-item-divider color="secondary">
+							    {{ option.header }}
+							    <br>
+							    {{ "Porção média: " + option.tip }}
+							</ion-item-divider>
+							<ion-item padding-left>
+								<ion-label  color="dark">Consumo semanal</ion-label>
+								<ion-select>
+									<ion-option value="1">1</ion-option>
+									<ion-option value="2">2</ion-option>
+									<ion-option value="3">3</ion-option>
+									<ion-option value="4">4</ion-option>
+									<ion-option value="5">5</ion-option>
+									<ion-option value="6">6</ion-option>
+									<ion-option value="7">7</ion-option>
+									<ion-option value="8">8</ion-option>
+									<ion-option value="9">9</ion-option>
+									<ion-option value="10">10</ion-option>
+								</ion-select>
+							</ion-item>
+							<ion-item padding-left>
+								<ion-label  color="dark">Sua porção</ion-label>
+								<ion-select>
+									<ion-option value="P">P</ion-option>
+									<ion-option value="M">M</ion-option>
+									<ion-option value="G">G</ion-option>
+									<ion-option value="E">E</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-item-group>	
+					</div>
+				</ion-list>
+
+				<ion-list *ngIf="question.group2" text-wrap>
+					<ion-item color="primary">
+						<ion-label>{{ question.group2 }}</ion-label>
+						<ion-checkbox color="light" [(ngModel)]="ckgroup2" end></ion-checkbox>
+					</ion-item>
+					<div *ngIf="ckgroup2">
+						<ion-item-group *ngFor="let option of question.group2opts">
+							<ion-item-divider color="secondary">
+							    {{ option.header }}
+							    <br>
+							    {{ "Porção média: " + option.tip }}
+							</ion-item-divider>
+							<ion-item padding-left>
+								<ion-label  color="dark">Consumo semanal</ion-label>
+								<ion-select>
+									<ion-option value="1">1</ion-option>
+									<ion-option value="2">2</ion-option>
+									<ion-option value="3">3</ion-option>
+									<ion-option value="4">4</ion-option>
+									<ion-option value="5">5</ion-option>
+									<ion-option value="6">6</ion-option>
+									<ion-option value="7">7</ion-option>
+									<ion-option value="8">8</ion-option>
+									<ion-option value="9">9</ion-option>
+									<ion-option value="10">10</ion-option>
+								</ion-select>
+							</ion-item>
+							<ion-item padding-left>
+								<ion-label  color="dark">Sua porção</ion-label>
+								<ion-select>
+									<ion-option value="P">P</ion-option>
+									<ion-option value="M">M</ion-option>
+									<ion-option value="G">G</ion-option>
+									<ion-option value="E">E</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-item-group>	
+					</div>
+				</ion-list>
+
+				<ion-list *ngIf="question.group3" text-wrap>
+					<ion-item color="primary">
+						<ion-label>{{ question.group3 }}</ion-label>
+						<ion-checkbox color="light" [(ngModel)]="ckgroup3" end></ion-checkbox>
+					</ion-item>
+					<div *ngIf="ckgroup3">
+						<ion-item-group *ngFor="let option of question.group3opts">
+							<ion-item-divider color="secondary">
+							    {{ option.header }}
+							    <br>
+							    {{ "Porção média: " + option.tip }}
+							</ion-item-divider>
+							<ion-item padding-left>
+								<ion-label  color="dark">Consumo semanal</ion-label>
+								<ion-select>
+									<ion-option value="1">1</ion-option>
+									<ion-option value="2">2</ion-option>
+									<ion-option value="3">3</ion-option>
+									<ion-option value="4">4</ion-option>
+									<ion-option value="5">5</ion-option>
+									<ion-option value="6">6</ion-option>
+									<ion-option value="7">7</ion-option>
+									<ion-option value="8">8</ion-option>
+									<ion-option value="9">9</ion-option>
+									<ion-option value="10">10</ion-option>
+								</ion-select>
+							</ion-item>
+							<ion-item padding-left>
+								<ion-label  color="dark">Sua porção</ion-label>
+								<ion-select>
+									<ion-option value="P">P</ion-option>
+									<ion-option value="M">M</ion-option>
+									<ion-option value="G">G</ion-option>
+									<ion-option value="E">E</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-item-group>	
+					</div>
+				</ion-list>
+
+				<ion-list *ngIf="question.group4" text-wrap>
+					<ion-item color="primary">
+						<ion-label>{{ question.group4 }}</ion-label>
+						<ion-checkbox color="light" [(ngModel)]="ckgroup4" end></ion-checkbox>
+					</ion-item>
+					<div *ngIf="ckgroup4">
+						<ion-item-group *ngFor="let option of question.group4opts">
+							<ion-item-divider color="secondary">
+							    {{ option.header }}
+							    <br>
+							    {{ "Porção média: " + option.tip }}
+							</ion-item-divider>
+							<ion-item padding-left>
+								<ion-label  color="dark">Consumo semanal</ion-label>
+								<ion-select>
+									<ion-option value="1">1</ion-option>
+									<ion-option value="2">2</ion-option>
+									<ion-option value="3">3</ion-option>
+									<ion-option value="4">4</ion-option>
+									<ion-option value="5">5</ion-option>
+									<ion-option value="6">6</ion-option>
+									<ion-option value="7">7</ion-option>
+									<ion-option value="8">8</ion-option>
+									<ion-option value="9">9</ion-option>
+									<ion-option value="10">10</ion-option>
+								</ion-select>
+							</ion-item>
+							<ion-item padding-left>
+								<ion-label  color="dark">Sua porção</ion-label>
+								<ion-select>
+									<ion-option value="P">P</ion-option>
+									<ion-option value="M">M</ion-option>
+									<ion-option value="G">G</ion-option>
+									<ion-option value="E">E</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-item-group>	
+					</div>
+				</ion-list>
+
+				<ion-list *ngIf="question.group5" text-wrap>
+					<ion-item color="primary">
+						<ion-label>{{ question.group5 }}</ion-label>
+						<ion-checkbox color="light" [(ngModel)]="ckgroup5" end></ion-checkbox>
+					</ion-item>
+					<div *ngIf="ckgroup5">
+						<ion-item-group *ngFor="let option of question.group5opts">
+							<ion-item-divider color="secondary">
+							    {{ option.header }}
+							    <br>
+							    {{ "Porção média: " + option.tip }}
+							</ion-item-divider>
+							<ion-item padding-left>
+								<ion-label  color="dark">Consumo semanal</ion-label>
+								<ion-select>
+									<ion-option value="1">1</ion-option>
+									<ion-option value="2">2</ion-option>
+									<ion-option value="3">3</ion-option>
+									<ion-option value="4">4</ion-option>
+									<ion-option value="5">5</ion-option>
+									<ion-option value="6">6</ion-option>
+									<ion-option value="7">7</ion-option>
+									<ion-option value="8">8</ion-option>
+									<ion-option value="9">9</ion-option>
+									<ion-option value="10">10</ion-option>
+								</ion-select>
+							</ion-item>
+							<ion-item padding-left>
+								<ion-label  color="dark">Sua porção</ion-label>
+								<ion-select>
+									<ion-option value="P">P</ion-option>
+									<ion-option value="M">M</ion-option>
+									<ion-option value="G">G</ion-option>
+									<ion-option value="E">E</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-item-group>	
+					</div>
+				</ion-list>
+
+				<ion-list *ngIf="question.group6" text-wrap>
+					<ion-item color="primary">
+						<ion-label>{{ question.group6 }}</ion-label>
+						<ion-checkbox color="light" [(ngModel)]="ckgroup6" end></ion-checkbox>
+					</ion-item>
+					<div *ngIf="ckgroup6">
+						<ion-item-group *ngFor="let option of question.group6opts">
+							<ion-item-divider color="secondary">
+							    {{ option.header }}
+							    <br>
+							    {{ "Porção média: " + option.tip }}
+							</ion-item-divider>
+							<ion-item padding-left>
+								<ion-label  color="dark">Consumo semanal</ion-label>
+								<ion-select>
+									<ion-option value="1">1</ion-option>
+									<ion-option value="2">2</ion-option>
+									<ion-option value="3">3</ion-option>
+									<ion-option value="4">4</ion-option>
+									<ion-option value="5">5</ion-option>
+									<ion-option value="6">6</ion-option>
+									<ion-option value="7">7</ion-option>
+									<ion-option value="8">8</ion-option>
+									<ion-option value="9">9</ion-option>
+									<ion-option value="10">10</ion-option>
+								</ion-select>
+							</ion-item>
+							<ion-item padding-left>
+								<ion-label  color="dark">Sua porção</ion-label>
+								<ion-select>
+									<ion-option value="P">P</ion-option>
+									<ion-option value="M">M</ion-option>
+									<ion-option value="G">G</ion-option>
+									<ion-option value="E">E</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-item-group>	
+					</div>
+				</ion-list>
+
+				<ion-list *ngIf="question.group7" text-wrap>
+					<ion-item color="primary">
+						<ion-label>{{ question.group7 }}</ion-label>
+						<ion-checkbox color="light" [(ngModel)]="ckgroup7" end></ion-checkbox>
+					</ion-item>
+					<div *ngIf="ckgroup7">
+						<ion-item-group *ngFor="let option of question.group7opts">
+							<ion-item-divider color="secondary">
+							    {{ option.header }}
+							    <br>
+							    {{ "Porção média: " + option.tip }}
+							</ion-item-divider>
+							<ion-item padding-left>
+								<ion-label  color="dark">Consumo semanal</ion-label>
+								<ion-select>
+									<ion-option value="1">1</ion-option>
+									<ion-option value="2">2</ion-option>
+									<ion-option value="3">3</ion-option>
+									<ion-option value="4">4</ion-option>
+									<ion-option value="5">5</ion-option>
+									<ion-option value="6">6</ion-option>
+									<ion-option value="7">7</ion-option>
+									<ion-option value="8">8</ion-option>
+									<ion-option value="9">9</ion-option>
+									<ion-option value="10">10</ion-option>
+								</ion-select>
+							</ion-item>
+							<ion-item padding-left>
+								<ion-label  color="dark">Sua porção</ion-label>
+								<ion-select>
+									<ion-option value="P">P</ion-option>
+									<ion-option value="M">M</ion-option>
+									<ion-option value="G">G</ion-option>
+									<ion-option value="E">E</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-item-group>	
+					</div>
+				</ion-list>
+
+				<ion-list *ngIf="question.group8" text-wrap>
+					<ion-item color="primary">
+						<ion-label>{{ question.group8 }}</ion-label>
+						<ion-checkbox color="light" [(ngModel)]="ckgroup8" end></ion-checkbox>
+					</ion-item>
+					<div *ngIf="ckgroup8">
+						<ion-item-group *ngFor="let option of question.group8opts">
+							<ion-item-divider color="secondary">
+							    {{ option.header }}
+							    <br>
+							    {{ "Porção média: " + option.tip }}
+							</ion-item-divider>
+							<ion-item padding-left>
+								<ion-label  color="dark">Consumo semanal</ion-label>
+								<ion-select>
+									<ion-option value="1">1</ion-option>
+									<ion-option value="2">2</ion-option>
+									<ion-option value="3">3</ion-option>
+									<ion-option value="4">4</ion-option>
+									<ion-option value="5">5</ion-option>
+									<ion-option value="6">6</ion-option>
+									<ion-option value="7">7</ion-option>
+									<ion-option value="8">8</ion-option>
+									<ion-option value="9">9</ion-option>
+									<ion-option value="10">10</ion-option>
+								</ion-select>
+							</ion-item>
+							<ion-item padding-left>
+								<ion-label  color="dark">Sua porção</ion-label>
+								<ion-select>
+									<ion-option value="P">P</ion-option>
+									<ion-option value="M">M</ion-option>
+									<ion-option value="G">G</ion-option>
+									<ion-option value="E">E</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-item-group>	
+					</div>
+				</ion-list>
+
+				<ion-list *ngIf="question.group9" text-wrap>
+					<ion-item color="primary">
+						<ion-label>{{ question.group9 }}</ion-label>
+						<ion-checkbox color="light" [(ngModel)]="ckgroup9" end></ion-checkbox>
+					</ion-item>
+					<div *ngIf="ckgroup9">
+						<ion-item-group *ngFor="let option of question.group9opts">
+							<ion-item-divider color="secondary">
+							    {{ option.header }}
+							    <br>
+							    {{ "Porção média: " + option.tip }}
+							</ion-item-divider>
+							<ion-item padding-left>
+								<ion-label  color="dark">Consumo semanal</ion-label>
+								<ion-select>
+									<ion-option value="1">1</ion-option>
+									<ion-option value="2">2</ion-option>
+									<ion-option value="3">3</ion-option>
+									<ion-option value="4">4</ion-option>
+									<ion-option value="5">5</ion-option>
+									<ion-option value="6">6</ion-option>
+									<ion-option value="7">7</ion-option>
+									<ion-option value="8">8</ion-option>
+									<ion-option value="9">9</ion-option>
+									<ion-option value="10">10</ion-option>
+								</ion-select>
+							</ion-item>
+							<ion-item padding-left>
+								<ion-label  color="dark">Sua porção</ion-label>
+								<ion-select>
+									<ion-option value="P">P</ion-option>
+									<ion-option value="M">M</ion-option>
+									<ion-option value="G">G</ion-option>
+									<ion-option value="E">E</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-item-group>	
+					</div>
+				</ion-list>
+
+				<ion-list *ngIf="question.group10" text-wrap>
+					<ion-item color="primary">
+						<ion-label>{{ question.group10 }}</ion-label>
+						<ion-checkbox color="light" [(ngModel)]="ckgroup10" end></ion-checkbox>
+					</ion-item>
+					<div *ngIf="ckgroup10">
+						<ion-item-group *ngFor="let option of question.group10opts">
+							<ion-item-divider color="secondary">
+							    {{ option.header }}
+							    <br>
+							    {{ "Porção média: " + option.tip }}
+							</ion-item-divider>
+							<ion-item padding-left>
+								<ion-label  color="dark">Consumo semanal</ion-label>
+								<ion-select>
+									<ion-option value="1">1</ion-option>
+									<ion-option value="2">2</ion-option>
+									<ion-option value="3">3</ion-option>
+									<ion-option value="4">4</ion-option>
+									<ion-option value="5">5</ion-option>
+									<ion-option value="6">6</ion-option>
+									<ion-option value="7">7</ion-option>
+									<ion-option value="8">8</ion-option>
+									<ion-option value="9">9</ion-option>
+									<ion-option value="10">10</ion-option>
+								</ion-select>
+							</ion-item>
+							<ion-item padding-left>
+								<ion-label  color="dark">Sua porção</ion-label>
+								<ion-select>
+									<ion-option value="P">P</ion-option>
+									<ion-option value="M">M</ion-option>
+									<ion-option value="G">G</ion-option>
+									<ion-option value="E">E</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-item-group>	
+					</div>
+				</ion-list>
+
+				<button ion-button icon-start clear (click)="previous()" *ngIf="question.seq > 0" medium>
+					<ion-icon name="arrow-round-back"></ion-icon>
+					Anterior
+				</button>
+				<button ion-button icon-end clear (click)="next()" *ngIf="question.seq < this.last" medium>
+					Próxima
+					<ion-icon name="arrow-round-forward"></ion-icon>
+				</button>
+				<button ion-button icon-end clear (click)="finish()" *ngIf="question.seq == this.last" medium>
+					Finalizar
+					<ion-icon name="done-all"></ion-icon>
+				</button>
+			</div>
+		</ion-slide>
+	</ion-slides>
+</ion-content>
