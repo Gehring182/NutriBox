@@ -14,11 +14,9 @@ import { ProfilePage } from '../profile/profile';
 export class EvaluationPage {
 
 	questionList: Array<object>;
-
 	last: number;
-
-	questionChosen: any;
-
+	optQuestionChosen: any;
+	questionGroupAnswer: any;
 	uidUser: string;
 
 	@ViewChild('slides') slides: Slides;
@@ -32,7 +30,8 @@ export class EvaluationPage {
 	) {
 		this.questionList = new Array<object>();
 		this.last = 0;
-		this.questionChosen = {};
+		this.optQuestionChosen = {};
+		this.questionGroupAnswer = {};
 		this.uidUser = this.navParams.get("key");
 		this.fetchQuestions();
 	}
@@ -42,14 +41,31 @@ export class EvaluationPage {
 	}
 
 	optionChose(choice: object) {
-		this.questionChosen = choice;
+		this.optQuestionChosen = choice;
 	}
 
-	saveOpt() {
-		if (this.questionChosen != {}) {
-			this.evalUserService.create(Object.assign({}, this.questionChosen, {uiduser: this.uidUser}));
+	groupAnswer(question: string, answer: object) {
+		if (this.questionGroupAnswer[question]) {
+			this.questionGroupAnswer[question] = Object.assign({}, this.questionGroupAnswer[question], answer);
+		} else {
+			this.questionGroupAnswer[question] = answer;
 		}
-		this.questionChosen = {};
+	}
+
+	save() {
+		if (Object.keys(this.optQuestionChosen).length > 0) {
+			this.evalUserService.create(Object.assign({}, this.optQuestionChosen, {uiduser: this.uidUser}));
+		}
+
+		if (Object.keys(this.questionGroupAnswer).length > 0) {
+			let questionGroupAnswer = this.questionGroupAnswer;
+			
+			Object.keys(questionGroupAnswer).map((key, index) => {
+				this.evalUserService.create(Object.assign({}, {answer: null, groupanswer: questionGroupAnswer[key], question: key}, {uiduser: this.uidUser}));
+			});
+		}
+		this.optQuestionChosen = {};
+		this.questionGroupAnswer = {};
 	}
 
 	finish() {
@@ -61,12 +77,12 @@ export class EvaluationPage {
 		};
 		this.eventService.create(eventData);
 
-		this.saveOpt();
+		this.save();
 	}
 
 	next() {
 		this.slides.slideNext();
-		//this.saveOpt();
+		this.save();
 	}
 
 	previous() {

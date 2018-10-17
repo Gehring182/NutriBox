@@ -17,6 +17,7 @@
 		    <span class="nutri">{{ this.nutriData.crn }}</span>
 		    <span class="title">{{ (this.nutriData.gender == "Masculino" ? " é o seu nutricionista." : " é a sua nutricionista.") }}</span>  
 		    <br>
+		    <br>
 		    <span class="title" *ngIf="this.Appointment">Vocês tem uma consulta agendada para </span>
 		    <span class="nutri">{{ this.Appointment }}</span>
 		</ion-card-header>
