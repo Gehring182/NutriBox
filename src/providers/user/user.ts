@@ -57,15 +57,18 @@ export class UserService {
 	//exemplo chamada em home.ts onLogin
 	getUserByAuthUid(uid: string) {
 		let refDb = this.afs.collection('users');
-		return refDb.ref.where('uid', '==', uid).get().then((documentSnapshot) => {
+		return refDb.ref
+		.where('uid', '==', uid).get().then((documentSnapshot) => {
 			return documentSnapshot.docChanges();
 		});
 	}
 
 	getUserByNutriUid(uid: string) {
 		let refDb = this.afs.collection('users');
-		return refDb.ref.where('nutri', '==', uid).get().then((documentSnapshot) => {
-			return documentSnapshot.docChanges();
-		});
+
+		return refDb.ref
+			.where('nutri', '==', uid).get().then((documentSnapshot) => {
+				return documentSnapshot.docChanges();
+			});
 	}
 }

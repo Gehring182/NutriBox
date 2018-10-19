@@ -15,8 +15,11 @@ export class MainPage {
 
 	cntAllPatients: number;
 	cntLastPatientsSignedUp: number;
-	lastPatientsSignedUp: string;
-	lastPatientsSignedUpNames: string;
+	cntEvaluationFinished: number;
+	cntPatientsNoAppointment: number;
+	evaluationFinished: Array<any>;
+	patientsNoAppointment: Array<any>;
+	lastPatientsSignedUp: Array<any>;
 
 	constructor(
 		public navCtrl: NavController, 
@@ -28,13 +31,26 @@ export class MainPage {
 		public loadingCtrl: LoadingController,
 		public toastCtrl: ToastController
 	) {
-		this.cntAllPatients = 0;
-		this.cntLastPatientsSignedUp = 0;
-		this.lastPatientsSignedUpNames = "";
+		this.initProps();		
 	}
 
 	ionViewDidLoad() {
+		this.loadPage();
+	}
+
+	initProps() {
+		this.cntAllPatients = 0;
+		this.cntLastPatientsSignedUp = 0;
+		this.cntEvaluationFinished = 0;
+		this.cntPatientsNoAppointment = 0;
+		this.lastPatientsSignedUp = [];
+		this.evaluationFinished = [];
+		this.patientsNoAppointment = [];
+	}
+
+	loadPage() {
 		this.loadPatientsSignedUp();
+		this.loadEvaluationFinished();
 		this.loadAllPatients();
 	}
 
@@ -82,6 +98,7 @@ export class MainPage {
 				  		let loading: Loading = this.showLoading()
 				  		this.userService.create(Object.assign(data, {nutri: key})).then(
 				  			(uid) => {
+				  				this.loadAllPatients();
 				  				loading.dismiss();
 				  				this.showAlert(data.name);
 				            },
@@ -107,53 +124,74 @@ export class MainPage {
 		toast.present();
 	}
 
-	showPatientsSigned() {
-		let subTitle = this.lastPatientsSignedUpNames;
 
-		const alert = this.alertCtrl.create({
-			title: 'Novos pacientes!',
-			subTitle: subTitle,
-			buttons: ['OK']
-		});
-
-		alert.present();
-	}
-
-	patientsListPage() {
-		this.navCtrl.push(PatientlistPage, {
+	patientsListPage(extra: object) {
+		let params = {
 			key: this.navParams.get('key'), 
 			name: this.navParams.get('name')
-		});
+		};
+
+		if (extra && Object.keys(extra).length > 0) {
+			params = Object.assign({}, params, extra);	
+		}
+		this.navCtrl.push(PatientlistPage, params);
+	}
+
+	patientsSignedUp() {
+		this.patientsListPage({patients: this.lastPatientsSignedUp});
+	}
+
+	evaluationFinishedPage() {
+		this.patientsListPage({patients: this.evaluationFinished});
+	}
+
+	patientsNoAppointmentPage() {
+		this.patientsListPage({patients: this.patientsNoAppointment});
 	}
 
 	loadPatientsSignedUp() {
-		let patients = [];
-		
 		if (Boolean(this.navParams.get('lastSession'))) {
 			this.eventService.getLastUsersSignedUp(this.navParams.get('key'), this.navParams.get('lastSession'))
 			.then((doc) => {
 				doc.forEach((event) => {
 					this.cntLastPatientsSignedUp++;
-					patients.push(event.doc.data().uidevent);
+					this.lastPatientsSignedUp.push(event.doc.data().uidevent);
 				});
 			}).then(() => {
-				patients.forEach((patient) => {
+				this.lastPatientsSignedUp.forEach((patient) => {
 					this.userService.getUserByUid(patient)
 					.then((doc) => {
-						this.lastPatientsSignedUpNames += "- " + doc.name + "<br>";
-					}).then((final) => {
-						this.lastPatientsSignedUp = (this.cntLastPatientsSignedUp == 1) ? " paciente se cadastrou." : " pacientes se cadastraram.";
+
 					});
 				});
 			});
 		}
 	}
 
+	loadEvaluationFinished() {
+		if (Boolean(this.navParams.get('lastSession'))) {
+			this.eventService.getEvaluationFinished(this.navParams.get('key'), this.navParams.get('lastSession')).then(
+				(doc) => {
+					doc.forEach((event) => {
+						this.evaluationFinished.push(event.doc.data().uidevent);
+						this.cntEvaluationFinished++;
+					})
+				}
+			).then(() => {
+			});
+		}
+	}
+
 	loadAllPatients() {
+		this.cntAllPatients = 0;
 		this.userService.getUserByNutriUid(this.navParams.get('key')).then(
 			(doc) => {
 				doc.forEach((user) => {
 					this.cntAllPatients++;
+					if (!user.doc.data().appointmentDate) {
+						this.patientsNoAppointment.push(user.doc.id);
+						this.cntPatientsNoAppointment++;
+					}
 				})
 			}
 		);

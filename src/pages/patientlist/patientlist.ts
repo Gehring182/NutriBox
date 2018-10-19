@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ToastController, ModalController, Loading, LoadingController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UserService } from '../../providers/user/user';
 import { AppointmentPage } from '../../pages/appointment/appointment';
+import { EvaluationresultPage } from '../../pages/evaluationresult/evaluationresult';
 
 import * as moment from 'moment';
 
@@ -34,10 +35,14 @@ export class PatientlistPage {
 	}
 
 	loadAllPatients() {
+		let patientsFilter = this.navParams.get('patients') || false;
+
 		this.userService.getUserByNutriUid(this.navParams.get('key')).then(
 			(doc) => {
 				doc.forEach((user) => {
-					this.patientList.push(Object.assign(user.doc.data(), {key: user.doc.id}));
+					if (!patientsFilter || patientsFilter.includes(user.doc.id)) {
+						this.patientList.push(Object.assign(user.doc.data(), { key: user.doc.id }));
+					}
 				});
 			}
 		).then(final => {
@@ -97,6 +102,12 @@ export class PatientlistPage {
 
   		modal.present();
   	}
+
+  	evaluationResultPage(patientData) {
+  		let params = Object.assign({key: this.navParams.get('key')}, patientData)
+
+		this.navCtrl.push(EvaluationresultPage, params);
+	}
 
 	showToast(message) {
 		let toast = this.toastCtrl.create({

@@ -44,15 +44,15 @@
 				</ion-item>
 				<ion-item *ngIf="question.desc0" text-wrap>
 					<ion-label floating color="primary">{{ question.desc0 }}</ion-label>
-					<ion-input type="text" ></ion-input>
+					<ion-input type="text" [(ngModel)]='desc0' (ionChange)="descAnswer({question: question.header, desc0: desc0})"></ion-input>
 				</ion-item>
 				<ion-item *ngIf="question.desc1" text-wrap>
 					<ion-label floating color="primary">{{ question.desc1 }}</ion-label>
-					<ion-input type="text" ></ion-input>
+					<ion-input type="number" [(ngModel)]='desc1' (ionChange)="descAnswer({question: question.header, desc1: desc1})"></ion-input>
 				</ion-item>
 				<ion-item *ngIf="question.desc2" text-wrap>
 					<ion-label floating color="primary">{{ question.desc2 }}</ion-label>
-					<ion-input type="text" ></ion-input>
+					<ion-input type="text" [(ngModel)]='desc2' (ionChange)="descAnswer({question: question.header, desc2: desc2})"></ion-input>
 				</ion-item>
 				<ion-list *ngIf="question.group0" text-wrap>
 					<ion-item color="primary">

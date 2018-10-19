@@ -17,6 +17,7 @@ export class EvaluationPage {
 	last: number;
 	optQuestionChosen: any;
 	questionGroupAnswer: any;
+	questionAnswer: any;
 	uidUser: string;
 
 	@ViewChild('slides') slides: Slides;
@@ -32,6 +33,7 @@ export class EvaluationPage {
 		this.last = 0;
 		this.optQuestionChosen = {};
 		this.questionGroupAnswer = {};
+		this.questionAnswer = {};
 		this.uidUser = this.navParams.get("key");
 		this.fetchQuestions();
 	}
@@ -52,6 +54,10 @@ export class EvaluationPage {
 		}
 	}
 
+	descAnswer(answer: object) {
+		this.questionAnswer = Object.assign({}, this.questionAnswer, answer);
+	}
+
 	save() {
 		if (Object.keys(this.optQuestionChosen).length > 0) {
 			this.evalUserService.create(Object.assign({}, this.optQuestionChosen, {uiduser: this.uidUser}));
@@ -64,8 +70,19 @@ export class EvaluationPage {
 				this.evalUserService.create(Object.assign({}, {answer: null, groupanswer: questionGroupAnswer[key], question: key}, {uiduser: this.uidUser}));
 			});
 		}
+
+		if (Object.keys(this.questionAnswer).length > 0) {
+			let groupanswer = {
+				desc0: this.questionAnswer.desc0,
+				desc1: this.questionAnswer.desc1,
+				desc2: this.questionAnswer.desc2
+			};
+			this.evalUserService.create(Object.assign({}, {answer: null, groupanswer: groupanswer, question: this.questionAnswer.question}, {uiduser: this.uidUser}));
+		}
+
 		this.optQuestionChosen = {};
 		this.questionGroupAnswer = {};
+		this.questionAnswer = {};
 	}
 
 	finish() {

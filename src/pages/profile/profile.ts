@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UserService } from '../../providers/user/user';
 import { AuthService } from '../../providers/auth/auth';
+import { EventService } from '../../providers/event/event';
 import { HomePage } from '../home/home';
 import { EvaluationPage } from '../evaluation/evaluation';
 
@@ -15,22 +16,21 @@ import * as moment from 'moment';
 export class ProfilePage {
 
 	nutriData: any;
+	appointment: string;
 	moment: any;
 
 	constructor(
 		public navCtrl: NavController, 
 		public navParams: NavParams,
 		public userService: UserService,
-		public authService: AuthService
+		public authService: AuthService,
+		public eventService: EventService
 	) {
 		this.nutriData = {};
+		this.appointment = null;
 		this.moment = moment;
 		this.fetchNutriData();
 	}
-	
-  	ionViewDidLoad() {
-  		
-  	}
 
 	fetchNutriData() {
 		this.userService.getUserByUid(this.navParams.get("nutri")).then((doc) => {
@@ -38,11 +38,13 @@ export class ProfilePage {
 		});
 	}
 
-	get Appointment() {
+	get AppointmentDate() {
 		if (!this.navParams.get("appointmentDate")) {
 			return null;
 		}
-		
+
+		this.appointment = "Você tem uma consulta agendada para ";
+
 		return this.moment(this.navParams.get("appointmentDate")).format("DD/MM/YYYY") + " ás " 
 			+ this.navParams.get("appointmentTime");
 	}

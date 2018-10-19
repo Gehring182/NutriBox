@@ -9,40 +9,66 @@
 	</ion-navbar>
 </ion-header>
 <ion-content>
-	<ion-card *ngIf="this.cntLastPatientsSignedUp > 0">
+	<ion-card *ngIf="this.cntLastPatientsSignedUp > 0 || this.cntEvaluationFinished > 0">
 		<ion-card-header color="primary">
 			Desde seu último acesso...
 		</ion-card-header>
 		<ion-card-content>
-			<ion-row no-padding>
-				<ion-col col-3 text-center>
+			<ion-row no-padding *ngIf="this.cntLastPatientsSignedUp > 0">
+				<ion-col col-2 text-center>
 					<span class="count">{{this.cntLastPatientsSignedUp}}</span>		
 				</ion-col>
-				<ion-col col-7 align-self-center>
-					<span class="desc">{{this.lastPatientsSignedUp}}</span>
+				<ion-col col-8 align-self-center>
+					<span class="desc">{{this.cntLastPatientsSignedUp == 1 ? " paciente se cadastrou." : " pacientes se cadastraram."}}</span>
 				</ion-col>
 				<ion-col col-2>
-					<button ion-button icon-only clear (click)="showPatientsSigned()">
+					<button ion-button icon-only clear (click)="patientsSignedUp()">
+						<ion-icon name="eye"></ion-icon>
+					</button>
+				</ion-col>
+			</ion-row>
+			<ion-row no-padding *ngIf="this.cntEvaluationFinished > 0">
+				<ion-col col-2 text-center>
+					<span class="count">{{this.cntEvaluationFinished}}</span>		
+				</ion-col>
+				<ion-col col-8 align-self-center>
+					<span class="desc">{{this.cntEvaluationFinished == 1 ? " paciente respondeu o questionário de frequência alimentar." : " pacientes responderam o questionário de frequência alimentar."}}</span>
+				</ion-col>
+				<ion-col col-2>
+					<button ion-button icon-only clear (click)="evaluationFinishedPage()">
 						<ion-icon name="eye"></ion-icon>
 					</button>
 				</ion-col>
 			</ion-row>		
 		</ion-card-content>
 	</ion-card>
-	<ion-card *ngIf="this.cntAllPatients > 0">
+	<ion-card *ngIf="this.cntAllPatients > 0 || this.cntPatientsNoAppointment > 0">
 		<ion-card-header color="primary">
 			Você possui...
 		</ion-card-header>
 		<ion-card-content>
-			<ion-row no-padding>
-				<ion-col col-3 text-center>
+			<ion-row no-padding *ngIf="this.cntAllPatients > 0">
+				<ion-col col-2 text-center>
 					<span class="count">{{this.cntAllPatients}}</span>		
 				</ion-col>
-				<ion-col col-7 align-self-center>
-					<span class="desc">pacientes em acompanhamento.</span>
+				<ion-col col-8 align-self-center>
+					<span class="desc">{{this.cntAllPatients > 1 ? "pacientes em acompanhamento." : "paciente em acompanhamento."}}</span>
 				</ion-col>
 				<ion-col col-2>
 					<button ion-button icon-only clear (click)="patientsListPage()">
+						<ion-icon name="eye"></ion-icon>
+					</button>
+				</ion-col>
+			</ion-row>
+			<ion-row no-padding *ngIf="this.cntPatientsNoAppointment > 0">
+				<ion-col col-2 text-center>
+					<span class="count">{{this.cntPatientsNoAppointment}}</span>		
+				</ion-col>
+				<ion-col col-8 align-self-center>
+					<span class="desc">{{this.cntPatientsNoAppointment > 1 ? "pacientes sem consulta agendada." : "paciente sem consulta agendada."}}</span>
+				</ion-col>
+				<ion-col col-2>
+					<button ion-button icon-only clear (click)="patientsNoAppointmentPage()">
 						<ion-icon name="eye"></ion-icon>
 					</button>
 				</ion-col>

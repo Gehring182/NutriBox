@@ -20,7 +20,7 @@ export class EventService {
 
 		//Tipos de evento
 		this.type = {
-			EVENT_USERS_SIGNEDUP: 1,
+			EVENT_USERS_SIGNEDUP: 1, 
 			EVENT_RESCHEDULED: 2,
 			EVENT_EVALUATION_FINISHED: 3
 		};
@@ -52,6 +52,18 @@ export class EventService {
 
 		return refDb.ref
 			.where('type', '==', this.type.EVENT_RESCHEDULED)
+			.where('uidto', '==', uid)
+			.where('eventdate', '>=', date).get().then((documentSnapshot) => {
+				return documentSnapshot.docChanges();
+		});
+	}
+
+	//Pacientes que responderam a avaliação
+	getEvaluationFinished(uid: string, date: Date) {
+		let refDb = this.afs.collection('events');
+
+		return refDb.ref
+			.where('type', '==', this.type.EVENT_EVALUATION_FINISHED)
 			.where('uidto', '==', uid)
 			.where('eventdate', '>=', date).get().then((documentSnapshot) => {
 				return documentSnapshot.docChanges();
