@@ -3,6 +3,7 @@ import { Slides, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EvaluationService } from '../../providers/evaluation/evaluation';
 import { EvaluationUserService } from '../../providers/evaluationuser/evaluationuser';
 import { EventService } from '../../providers/event/event';
+import { UserService } from '../../providers/user/user';
 import { ProfilePage } from '../profile/profile';
 
 @IonicPage()
@@ -27,7 +28,8 @@ export class EvaluationPage {
 		public navParams: NavParams,
 		public evalService: EvaluationService,
 		public evalUserService: EvaluationUserService,
-		public eventService: EventService
+		public eventService: EventService,
+		public userService: UserService
 	) {
 		this.questionList = new Array<object>();
 		this.last = 0;
@@ -42,8 +44,8 @@ export class EvaluationPage {
 				
 	}
 
-	optionChose(choice: object) {
-		this.optQuestionChosen = choice;
+	optionChose(question: string, choice: string) {
+		this.optQuestionChosen[question] = {answer: choice};
 	}
 
 	groupAnswer(question: string, answer: object) {
@@ -59,27 +61,50 @@ export class EvaluationPage {
 	}
 
 	save() {
+		let answers = [];
+		
 		if (Object.keys(this.optQuestionChosen).length > 0) {
-			this.evalUserService.create(Object.assign({}, this.optQuestionChosen, {uiduser: this.uidUser}));
-		}
-
-		if (Object.keys(this.questionGroupAnswer).length > 0) {
-			let questionGroupAnswer = this.questionGroupAnswer;
+			let optQuestionChosen = this.optQuestionChosen;
 			
-			Object.keys(questionGroupAnswer).map((key, index) => {
-				this.evalUserService.create(Object.assign({}, {answer: null, groupanswer: questionGroupAnswer[key], question: key}, {uiduser: this.uidUser}));
+			Object.keys(optQuestionChosen).map((key, index) => {
+				answers.push({
+					question: key,
+					answer: optQuestionChosen[key].answer
+				});
 			});
 		}
 
-		if (Object.keys(this.questionAnswer).length > 0) {
-			let groupanswer = {
-				desc0: this.questionAnswer.desc0,
-				desc1: this.questionAnswer.desc1,
-				desc2: this.questionAnswer.desc2
-			};
-			this.evalUserService.create(Object.assign({}, {answer: null, groupanswer: groupanswer, question: this.questionAnswer.question}, {uiduser: this.uidUser}));
+		if (Object.keys(this.questionGroupAnswer).length > 0) {
+			let questionGroupAnswer = this.questionGroupAnswer,
+				groupAnswer = {};
+				
+			Object.keys(questionGroupAnswer).map((key, index) => {
+				if (!groupAnswer[questionGroupAnswer[key].group]) {
+					groupAnswer[questionGroupAnswer[key].group] = [];
+				}
+
+				groupAnswer[questionGroupAnswer[key].group].push({
+					question: key, 
+					groupanswer: questionGroupAnswer[key] 
+				});
+			});
+
+			answers.push(groupAnswer);
 		}
 
+		if (Object.keys(this.questionAnswer).length > 0) {
+			answers.push({ 
+				question: this.questionAnswer.question,
+				groupanswer: {
+					desc0: this.questionAnswer.desc0,
+					desc1: this.questionAnswer.desc1,
+					desc2: this.questionAnswer.desc2
+				}
+			});
+		}
+
+		this.evalUserService.create({uiduser: this.uidUser, question: answers});
+		this.userService.update(this.uidUser, {evaluationAnswered: true});
 		this.optQuestionChosen = {};
 		this.questionGroupAnswer = {};
 		this.questionAnswer = {};
@@ -99,7 +124,7 @@ export class EvaluationPage {
 
 	next() {
 		this.slides.slideNext();
-		this.save();
+		//this.save();
 	}
 
 	previous() {

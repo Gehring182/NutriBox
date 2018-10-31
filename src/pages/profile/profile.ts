@@ -16,6 +16,7 @@ import * as moment from 'moment';
 export class ProfilePage {
 
 	nutriData: any;
+	patientData: any;
 	appointment: string;
 	moment: any;
 
@@ -27,14 +28,19 @@ export class ProfilePage {
 		public eventService: EventService
 	) {
 		this.nutriData = {};
+		this.patientData = {};
 		this.appointment = null;
 		this.moment = moment;
-		this.fetchNutriData();
+		this.fetchData();
 	}
 
-	fetchNutriData() {
+	fetchData() {
 		this.userService.getUserByUid(this.navParams.get("nutri")).then((doc) => {
 			this.nutriData = doc;
+		});
+
+		this.userService.getUserByUid(this.navParams.get('key')).then((doc) => {
+			this.patientData = doc;
 		});
 	}
 
@@ -45,7 +51,7 @@ export class ProfilePage {
 
 		this.appointment = "Você tem uma consulta agendada para ";
 
-		return this.moment(this.navParams.get("appointmentDate")).format("DD/MM/YYYY") + " ás " 
+		return this.moment(this.navParams.get("appointmentDate")).format("DD/MM/YYYY") + " " 
 			+ this.navParams.get("appointmentTime");
 	}
 

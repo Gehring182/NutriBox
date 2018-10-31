@@ -18,7 +18,7 @@ export class EvaluationUserService {
 		this.evaluationUserCollection = this.afs.collection('evaluationuser');
 	}
 
-	create(evaluation: EvaluationUser) {
+	create(evaluation: any) {
 		return this.evaluationUserCollection.add(evaluation);
 	}
 
@@ -28,6 +28,15 @@ export class EvaluationUserService {
 		return refDb.ref
 			.where('uiduser', '==', uiduser)
 			.where('uidquestion', '==', uidquestion).get().then((documentSnapshot) => {
+				return documentSnapshot.docChanges();
+		});
+	}
+
+	getAnswerQuestionsByUser(uid: string) {
+		let refDb = this.afs.collection('evaluationuser');
+
+		return refDb.ref
+			.where('uiduser', '==', uid).get().then((documentSnapshot) => {
 				return documentSnapshot.docChanges();
 		});
 	}

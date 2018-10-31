@@ -26,15 +26,14 @@
 	</ion-card>
 	<ion-card>
 		<ion-card-content>
-			<ion-row no-padding>
+			<ion-row padding-bottom *ngIf="!patientData.evaluationAnswered">
 				<ion-col col-12 text-left no-padding>
 					<span class="alert">
 						Agilize sua consulta, respondendo o questionário de frequência alimentar!
 					</span>
 				</ion-col>
 			</ion-row>
-			<br>
-			<ion-row no-padding>
+			<ion-row padding-bottom *ngIf="!patientData.evaluationAnswered">
 				<ion-col col-12 text-left no-padding>
 					<button ion-button icon-end round full (click)="openEvaluation()">
 					  	Responder questionário
@@ -42,7 +41,6 @@
 					</button>
 				</ion-col>
 			</ion-row>
-			<br>
 			<ion-row no-padding>
 				<ion-col col-12 text-left no-padding>
 					<button ion-button icon-end round full>

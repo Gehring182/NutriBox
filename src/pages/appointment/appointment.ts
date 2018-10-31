@@ -40,10 +40,6 @@ export class AppointmentPage {
 		return (this.navParams.get('name') || this.navParams.get('email'));
 	}
 
-	dismiss() {
-		this.viewCtrl.dismiss();
-	}
-
 	onSubmit() {
   		let loading: Loading = this.showLoading();
 
@@ -63,7 +59,7 @@ export class AppointmentPage {
 				}
 
 				loading.dismiss();
-  				this.dismiss();	
+				this.navCtrl.pop();
 			}
 		);
   	}

@@ -19,6 +19,7 @@ export class EvaluationService {
 
 	get AllQuestions() {
 		let refDb = this.afs.collection('evaluation');
+		
 		return refDb.ref.orderBy("seq", "asc").get().then((documentSnapshot) => {
 			return documentSnapshot.docChanges();
 		});

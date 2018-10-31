@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { ToastController, ModalController, Loading, LoadingController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ToastController, Loading, LoadingController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UserService } from '../../providers/user/user';
+import { EventService } from '../../providers/event/event';
 import { AppointmentPage } from '../../pages/appointment/appointment';
 import { EvaluationresultPage } from '../../pages/evaluationresult/evaluationresult';
 
@@ -13,7 +14,7 @@ import * as moment from 'moment';
 })
 export class PatientlistPage {
 
-	patientList: Array<object>;
+	patientsList: Array<object>;
 	loading: Loading;
 	moment: any;
 
@@ -21,41 +22,49 @@ export class PatientlistPage {
 		public navCtrl: NavController, 
 		public navParams: NavParams,
 		public userService: UserService,
+		public eventService: EventService,
 		public loadingCtrl: LoadingController,
-		public modalCtrl: ModalController,
 		public toastCtrl: ToastController
 	) {
 		this.loading = this.showLoading();
-		this.patientList = new Array<object>();
 		this.moment = moment;
 	}
 
-	ionViewDidLoad() {
+	ionViewDidEnter() {
+		this.resetProps()
 		this.loadAllPatients();
 	}
 
+	resetProps() {
+		this.patientsList = new Array<object>();
+	}
+
 	loadAllPatients() {
-		let patientsFilter = this.navParams.get('patients') || false;
+		let patientsFilter = this.navParams.get('patients') || false,
+			hasEvaluation;
 
 		this.userService.getUserByNutriUid(this.navParams.get('key')).then(
 			(doc) => {
 				doc.forEach((user) => {
 					if (!patientsFilter || patientsFilter.includes(user.doc.id)) {
-						this.patientList.push(Object.assign(user.doc.data(), { key: user.doc.id }));
+						this.patientsList.push(Object.assign(user.doc.data(), { 
+							key: user.doc.id 
+						}));
 					}
 				});
 			}
 		).then(final => {
+			console.log(this.patientsList);
 			this.loading.dismiss();
 		});
 	}
 
 	getAppointment(appointmentDate, appointmentTime) {
 		if (!appointmentDate) {
-			return null;
+			return "Sem consulta agendada.";
 		}
 		
-		return this.moment(appointmentDate).format("DD/MM/YYYY") + " ás " + appointmentTime; 
+		return this.moment(appointmentDate).format("DD/MM/YYYY") + " " + appointmentTime; 
 	}
 
 	getAge(patientDate) {
@@ -97,10 +106,9 @@ export class PatientlistPage {
   	}
 
   	showAppointmentModal(patientData) {
-  		let params = Object.assign({key: this.navParams.get('key')}, patientData),
-  			modal = this.modalCtrl.create(AppointmentPage, params);
+  		let params = Object.assign({key: this.navParams.get('key')}, patientData);
 
-  		modal.present();
+  		this.navCtrl.push(AppointmentPage, params);
   	}
 
   	evaluationResultPage(patientData) {

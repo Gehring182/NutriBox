@@ -12,35 +12,35 @@
 				</ion-item>
 				<ion-item *ngIf="question.opt0" text-wrap>
 					<ion-label>{{ question.opt0 }}</ion-label>
-					<ion-radio color="dark" (click)="optionChose({question: question.header, answer: question.opt0})"></ion-radio>
+					<ion-radio color="dark" (click)="optionChose(question.header, question.opt0)"></ion-radio>
 				</ion-item>
 				<ion-item *ngIf="question.opt1" text-wrap>
-				<ion-label>{{ question.opt1 }}</ion-label>
-					<ion-radio color="dark" (click)="optionChose({question: question.header, answer: question.opt1})"></ion-radio>
+					<ion-label>{{ question.opt1 }}</ion-label>
+					<ion-radio color="dark" (click)="optionChose(question.header, question.opt1)"></ion-radio>
 				</ion-item>
 				<ion-item *ngIf="question.opt2" text-wrap>
 					<ion-label>{{ question.opt2 }}</ion-label>
-					<ion-radio color="dark" (click)="optionChose({question: question.header, answer: question.opt2})"></ion-radio>
+					<ion-radio color="dark" (click)="optionChose(question.header, question.opt2)"></ion-radio>
 				</ion-item>
 				<ion-item *ngIf="question.opt3" text-wrap>
 					<ion-label>{{ question.opt3 }}</ion-label>
-					<ion-radio color="dark" (click)="optionChose({question: question.header, answer: question.opt3})"></ion-radio>
+					<ion-radio color="dark" (click)="optionChose(question.header, question.opt3)"></ion-radio>
 				</ion-item>
 				<ion-item *ngIf="question.opt4" text-wrap>
 					<ion-label>{{ question.opt4 }}</ion-label>
-					<ion-radio color="dark" (click)="optionChose({question: question.header, answer: question.opt4})"></ion-radio>
+					<ion-radio color="dark" (click)="optionChose(question.header, question.opt4)"></ion-radio>
 				</ion-item>
 				<ion-item *ngIf="question.opt5" text-wrap>
 					<ion-label>{{ question.opt5 }}</ion-label>
-					<ion-radio color="dark" (click)="optionChose({question: question.header, answer: question.opt5})"></ion-radio>
+					<ion-radio color="dark" (click)="optionChose(question.header, question.opt5)"></ion-radio>
 				</ion-item>
 				<ion-item *ngIf="question.opt6" text-wrap>
 					<ion-label>{{ question.opt6 }}</ion-label>
-					<ion-radio color="dark" (click)="optionChose({question: question.header, answer: question.opt6})"></ion-radio>
+					<ion-radio color="dark" (click)="optionChose(question.header, question.opt6)"></ion-radio>
 				</ion-item>
 				<ion-item *ngIf="question.opt7" text-wrap>
 					<ion-label>{{ question.opt7 }}</ion-label>
-					<ion-radio color="dark" (click)="optionChose({question: question.header, answer: question.opt7})"></ion-radio>
+					<ion-radio color="dark" (click)="optionChose(question.header, question.opt7)"></ion-radio>
 				</ion-item>
 				<ion-item *ngIf="question.desc0" text-wrap>
 					<ion-label floating color="primary">{{ question.desc0 }}</ion-label>
@@ -68,7 +68,7 @@
 							</ion-item-divider>
 							<ion-item padding-left>
 								<ion-label  color="dark">Porções semanais</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {freq: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {freq: $event, group: question.group0})">
 									<ion-option value="1">1</ion-option>
 									<ion-option value="2">2</ion-option>
 									<ion-option value="3">3</ion-option>
@@ -83,7 +83,7 @@
 							</ion-item>
 							<ion-item padding-left>
 								<ion-label  color="dark">Tamanho da porção</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {size: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {size: $event})">
 									<ion-option value="Pequena">Pequena</ion-option>
 									<ion-option value="Média">Média</ion-option>
 									<ion-option value="Grande">Grande</ion-option>
@@ -108,7 +108,7 @@
 							</ion-item-divider>
 							<ion-item padding-left>
 								<ion-label  color="dark">Porções semanais</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {freq: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {freq: $event, group: question.group1})">
 									<ion-option value="1">1</ion-option>
 									<ion-option value="2">2</ion-option>
 									<ion-option value="3">3</ion-option>
@@ -123,7 +123,7 @@
 							</ion-item>
 							<ion-item padding-left>
 								<ion-label  color="dark">Tamanho da porção</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {size: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {size: $event})">
 									<ion-option value="Pequena">Pequena</ion-option>
 									<ion-option value="Média">Média</ion-option>
 									<ion-option value="Grande">Grande</ion-option>
@@ -148,7 +148,7 @@
 							</ion-item-divider>
 							<ion-item padding-left>
 								<ion-label  color="dark">Porções semanais</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {freq: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {freq: $event, group: question.group2})">
 									<ion-option value="1">1</ion-option>
 									<ion-option value="2">2</ion-option>
 									<ion-option value="3">3</ion-option>
@@ -163,7 +163,7 @@
 							</ion-item>
 							<ion-item padding-left>
 								<ion-label  color="dark">Tamanho da porção</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {size: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {size: $event})">
 									<ion-option value="Pequena">Pequena</ion-option>
 									<ion-option value="Média">Média</ion-option>
 									<ion-option value="Grande">Grande</ion-option>
@@ -188,7 +188,7 @@
 							</ion-item-divider>
 							<ion-item padding-left>
 								<ion-label  color="dark">Porções semanais</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {freq: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {freq: $event, group: question.group3})">
 									<ion-option value="1">1</ion-option>
 									<ion-option value="2">2</ion-option>
 									<ion-option value="3">3</ion-option>
@@ -203,7 +203,7 @@
 							</ion-item>
 							<ion-item padding-left>
 								<ion-label  color="dark">Tamanho da porção</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {size: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {size: $event})">
 									<ion-option value="Pequena">Pequena</ion-option>
 									<ion-option value="Média">Média</ion-option>
 									<ion-option value="Grande">Grande</ion-option>
@@ -228,7 +228,7 @@
 							</ion-item-divider>
 							<ion-item padding-left>
 								<ion-label  color="dark">Porções semanais</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {freq: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {freq: $event, group: question.group4})">
 									<ion-option value="1">1</ion-option>
 									<ion-option value="2">2</ion-option>
 									<ion-option value="3">3</ion-option>
@@ -243,7 +243,7 @@
 							</ion-item>
 							<ion-item padding-left>
 								<ion-label  color="dark">Tamanho da porção</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {size: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {size: $event})">
 									<ion-option value="Pequena">Pequena</ion-option>
 									<ion-option value="Média">Média</ion-option>
 									<ion-option value="Grande">Grande</ion-option>
@@ -268,7 +268,7 @@
 							</ion-item-divider>
 							<ion-item padding-left>
 								<ion-label  color="dark">Porções semanais</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {freq: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {freq: $event, group: question.group5})">
 									<ion-option value="1">1</ion-option>
 									<ion-option value="2">2</ion-option>
 									<ion-option value="3">3</ion-option>
@@ -283,7 +283,7 @@
 							</ion-item>
 							<ion-item padding-left>
 								<ion-label  color="dark">Tamanho da porção</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {size: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {size: $event})">
 									<ion-option value="Pequena">Pequena</ion-option>
 									<ion-option value="Média">Média</ion-option>
 									<ion-option value="Grande">Grande</ion-option>
@@ -308,7 +308,7 @@
 							</ion-item-divider>
 							<ion-item padding-left>
 								<ion-label  color="dark">Porções semanais</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {freq: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {freq: $event})">
 									<ion-option value="1">1</ion-option>
 									<ion-option value="2">2</ion-option>
 									<ion-option value="3">3</ion-option>
@@ -323,7 +323,7 @@
 							</ion-item>
 							<ion-item padding-left>
 								<ion-label  color="dark">Tamanho da porção</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {size: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {size: $event, group: question.group6})">
 									<ion-option value="Pequena">Pequena</ion-option>
 									<ion-option value="Média">Média</ion-option>
 									<ion-option value="Grande">Grande</ion-option>
@@ -348,7 +348,7 @@
 							</ion-item-divider>
 							<ion-item padding-left>
 								<ion-label  color="dark">Porções semanais</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {freq: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {freq: $event})">
 									<ion-option value="1">1</ion-option>
 									<ion-option value="2">2</ion-option>
 									<ion-option value="3">3</ion-option>
@@ -363,7 +363,7 @@
 							</ion-item>
 							<ion-item padding-left>
 								<ion-label  color="dark">Tamanho da porção</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {size: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {size: $event, group: question.group7})">
 									<ion-option value="Pequena">Pequena</ion-option>
 									<ion-option value="Média">Média</ion-option>
 									<ion-option value="Grande">Grande</ion-option>
@@ -388,7 +388,7 @@
 							</ion-item-divider>
 							<ion-item padding-left>
 								<ion-label  color="dark">Porções semanais</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {freq: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {freq: $event, group: question.group8})">
 									<ion-option value="1">1</ion-option>
 									<ion-option value="2">2</ion-option>
 									<ion-option value="3">3</ion-option>
@@ -403,7 +403,7 @@
 							</ion-item>
 							<ion-item padding-left>
 								<ion-label  color="dark">Tamanho da porção</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {size: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {size: $event})">
 									<ion-option value="Pequena">Pequena</ion-option>
 									<ion-option value="Média">Média</ion-option>
 									<ion-option value="Grande">Grande</ion-option>
@@ -428,7 +428,7 @@
 							</ion-item-divider>
 							<ion-item padding-left>
 								<ion-label  color="dark">Porções semanais</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {freq: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {freq: $event, group: question.group9})">
 									<ion-option value="1">1</ion-option>
 									<ion-option value="2">2</ion-option>
 									<ion-option value="3">3</ion-option>
@@ -443,7 +443,7 @@
 							</ion-item>
 							<ion-item padding-left>
 								<ion-label  color="dark">Tamanho da porção</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {size: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {size: $event})">
 									<ion-option value="Pequena">Pequena</ion-option>
 									<ion-option value="Média">Média</ion-option>
 									<ion-option value="Grande">Grande</ion-option>
@@ -468,7 +468,7 @@
 							</ion-item-divider>
 							<ion-item padding-left>
 								<ion-label  color="dark">Porções semanais</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {freq: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {freq: $event, group: question.group10})">
 									<ion-option value="1">1</ion-option>
 									<ion-option value="2">2</ion-option>
 									<ion-option value="3">3</ion-option>
@@ -483,7 +483,7 @@
 							</ion-item>
 							<ion-item padding-left>
 								<ion-label  color="dark">Tamanho da porção</ion-label>
-								<ion-select (ionChange)="groupAnswer(option.header, {size: $event})">
+								<ion-select (ionChange)="groupAnswer(option.header + ' - Porção média: ' + option.tip, {size: $event})">
 									<ion-option value="Pequena">Pequena</ion-option>
 									<ion-option value="Média">Média</ion-option>
 									<ion-option value="Grande">Grande</ion-option>

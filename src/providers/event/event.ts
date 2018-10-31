@@ -69,4 +69,15 @@ export class EventService {
 				return documentSnapshot.docChanges();
 		});
 	}
+
+	//Se paciente respondeu a avaliação
+	hasUserEvaluation(uid: string) {
+		let refDb = this.afs.collection('events');
+
+		return refDb.ref
+			.where('type', '==', this.type.EVENT_EVALUATION_FINISHED)
+			.where('uidevent', '==', uid).get().then((documentSnapshot) => {
+				return !documentSnapshot.empty;
+		});
+	}
 }

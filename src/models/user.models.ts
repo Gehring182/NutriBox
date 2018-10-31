@@ -10,5 +10,6 @@ export class User {
 		public lastSession: Date,
 		public gender: string,
 		public appointmentDate: Date,
-		public appointmentTime: string){}
+		public appointmentTime: string,
+		public evaluationAnswered: boolean){}
 }

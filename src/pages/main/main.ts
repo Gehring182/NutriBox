@@ -30,15 +30,14 @@ export class MainPage {
 		public eventService: EventService,
 		public loadingCtrl: LoadingController,
 		public toastCtrl: ToastController
-	) {
-		this.initProps();		
-	}
+	) {}
 
-	ionViewDidLoad() {
+	ionViewDidEnter() {
+		this.resetProps();
 		this.loadPage();
 	}
 
-	initProps() {
+	resetProps() {
 		this.cntAllPatients = 0;
 		this.cntLastPatientsSignedUp = 0;
 		this.cntEvaluationFinished = 0;
@@ -137,7 +136,7 @@ export class MainPage {
 		this.navCtrl.push(PatientlistPage, params);
 	}
 
-	patientsSignedUp() {
+	patientsSignedUpPage() {
 		this.patientsListPage({patients: this.lastPatientsSignedUp});
 	}
 
