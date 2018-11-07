@@ -54,6 +54,7 @@ export class UserService {
 			return documentSnapshot.data();
 		});
 	}
+	
 	//exemplo chamada em home.ts onLogin
 	getUserByAuthUid(uid: string) {
 		let refDb = this.afs.collection('users');

@@ -40,10 +40,6 @@ export class EvaluationPage {
 		this.fetchQuestions();
 	}
 
-	ionViewDidLoad() {
-				
-	}
-
 	optionChose(question: string, choice: string) {
 		this.optQuestionChosen[question] = {answer: choice};
 	}
@@ -108,6 +104,8 @@ export class EvaluationPage {
 		this.optQuestionChosen = {};
 		this.questionGroupAnswer = {};
 		this.questionAnswer = {};
+
+		this.navCtrl.pop();
 	}
 
 	finish() {
@@ -124,7 +122,6 @@ export class EvaluationPage {
 
 	next() {
 		this.slides.slideNext();
-		//this.save();
 	}
 
 	previous() {

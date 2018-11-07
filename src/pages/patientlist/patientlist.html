@@ -3,7 +3,7 @@
 		<ion-title>Seus pacientes</ion-title>
 	</ion-navbar>
 </ion-header>
-<ion-content>
+<ion-content no-padding>
 	<ion-card *ngFor="let patient of patientsList">
 	    <ion-card-header class="header">{{ patient.name || patient.email }}</ion-card-header>
 	    <ion-card-content>
@@ -33,14 +33,20 @@
 					<span class="alert">Sem consulta agendada!</span>
 				</ion-col>
 			</ion-row>
-			<ion-row *ngIf="patient.birth">
-				<ion-col col-6 text-left>
-					<button ion-button icon-end clear (click)="showAppointmentModal(patient)" small>
+			<ion-row *ngIf="patient.birth" no-padding>
+				<ion-col col-4 text-left>
+					<button ion-button icon-end clear (click)="showAppointmentPage(patient)" small>
 						{{ patient.appointmentDate ? 'Reagendar' : 'Agendar'}}
 						<ion-icon name="calendar"></ion-icon>
 					</button>
 				</ion-col>
-				<ion-col col-6 text-left *ngIf="patient.evaluationAnswered">
+				<ion-col col-4 text-left>
+					<button ion-button icon-end clear (click)="showMessagePage(patient)" small>
+						Mensagem
+						<ion-icon name="mail"></ion-icon>
+					</button>
+				</ion-col>
+				<ion-col col-4 text-left *ngIf="patient.evaluationAnswered">
 					<button ion-button icon-end clear (click)="evaluationResultPage(patient)" small>
 						Questionário
 						<ion-icon name="clipboard"></ion-icon>

@@ -1,0 +1,25 @@
+<ion-header>
+	<ion-navbar color="primary">
+		<ion-title>{{ this.Header }}</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content padding>
+	<form [formGroup]="messageForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+		<ion-item>
+			<ion-label floating color="primary">Mensagem</ion-label>
+			<ion-input type="text" formControlName="desc"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label floating color="primary">Tipo de mensagem</ion-label>
+			<ion-select formControlName="category">
+				<ion-option value="Pergunta">Pergunta</ion-option>
+				<ion-option value="Dica">Dica</ion-option>
+			</ion-select>
+	    </ion-item>
+	    <br>
+		<button ion-button full round icon-end color="secondary" type="submit" [disabled]="messageForm.invalid">
+			Enviar
+			<ion-icon name="checkmark"></ion-icon>
+		</button>
+	</form>
+</ion-content>

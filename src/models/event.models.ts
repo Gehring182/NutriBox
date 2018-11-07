@@ -6,5 +6,7 @@ export class Event {
 		public type: number,
 		public eventdate: Date,
 		public uidevent: string,
-		public uidto: string){}
+		public uidto: string,
+		public desc: string,
+		public category: string){}
 }

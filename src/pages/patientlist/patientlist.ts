@@ -3,6 +3,7 @@ import { ToastController, Loading, LoadingController, IonicPage, NavController, 
 import { UserService } from '../../providers/user/user';
 import { EventService } from '../../providers/event/event';
 import { AppointmentPage } from '../../pages/appointment/appointment';
+import { MessagePage } from '../../pages/message/message';
 import { EvaluationresultPage } from '../../pages/evaluationresult/evaluationresult';
 
 import * as moment from 'moment';
@@ -28,11 +29,12 @@ export class PatientlistPage {
 	) {
 		this.loading = this.showLoading();
 		this.moment = moment;
+		this.resetProps();
+		this.loadAllPatients();
 	}
 
 	ionViewDidEnter() {
-		this.resetProps()
-		this.loadAllPatients();
+		
 	}
 
 	resetProps() {
@@ -40,8 +42,7 @@ export class PatientlistPage {
 	}
 
 	loadAllPatients() {
-		let patientsFilter = this.navParams.get('patients') || false,
-			hasEvaluation;
+		let patientsFilter = this.navParams.get('patients') || false;
 
 		this.userService.getUserByNutriUid(this.navParams.get('key')).then(
 			(doc) => {
@@ -105,10 +106,16 @@ export class PatientlistPage {
   		return loading;
   	}
 
-  	showAppointmentModal(patientData) {
+  	showAppointmentPage(patientData) {
   		let params = Object.assign({key: this.navParams.get('key')}, patientData);
 
   		this.navCtrl.push(AppointmentPage, params);
+  	}
+
+  	showMessagePage(patientData) {
+  		let params = Object.assign({key: this.navParams.get('key')}, patientData);
+
+  		this.navCtrl.push(MessagePage, params);
   	}
 
   	evaluationResultPage(patientData) {

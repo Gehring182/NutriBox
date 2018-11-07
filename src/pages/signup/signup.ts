@@ -38,8 +38,8 @@ export class SignupPage {
   	onSubmit() {
   		let loading: Loading = this.showLoading();
             //cria o usuário
-            this.userService.create(this.signupForm.value).then(
-                (uid) => {
+        this.userService.create(this.signupForm.value).then(
+            (uid) => {
   				//cadastra autenticação
   				this.authService.createAuthUser({
 		  			email: this.signupForm.value.email,

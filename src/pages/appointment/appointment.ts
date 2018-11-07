@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams,ViewController, Loading, LoadingCon
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../providers/user/user';
 import { EventService } from '../../providers/event/event';
-import { PatientlistPage } from '../patientlist/patientlist';
 
 @IonicPage()
 @Component({
@@ -36,7 +35,7 @@ export class AppointmentPage {
 	ionViewDidLoad() {
 	}
 
-	get AppointmentHeader() {
+	get Header() {
 		return (this.navParams.get('name') || this.navParams.get('email'));
 	}
 

@@ -73,25 +73,27 @@
 					</button>
 				</ion-col>
 			</ion-row>
+			<ion-row no-padding *ngIf="this.cntPatientsNoSignedup > 0">
+				<ion-col col-2 text-center>
+					<span class="count">{{this.cntPatientsNoSignedup}}</span>		
+				</ion-col>
+				<ion-col col-8 align-self-center>
+					<span class="desc">{{this.cntPatientsNoSignedup > 1 ? "pacientes que ainda não se cadastraram." : "paciente que ainda não se cadastrou."}}</span>
+				</ion-col>
+				<ion-col col-2>
+					<button ion-button icon-only clear (click)="patientsNoSignupPage()">
+						<ion-icon name="eye"></ion-icon>
+					</button>
+				</ion-col>
+			</ion-row>
 		</ion-card-content>
 	</ion-card>
-	<ion-card *ngIf="this.cntAllPatients == 0">
-		<ion-card-header>
-			Você ainda não possui pacientes!
-		</ion-card-header>
+	<ion-card>
 		<ion-card-content>
-			<button ion-button full round icon-end (click)="showPatientPrompt()">
-			  	Paciente 
+			<button ion-button full round icon-end (click)="showPatientPrompt()" color="secondary">
+			  	Adicionar paciente 
 			  	<ion-icon name="add"></ion-icon>
 			</button>
 		</ion-card-content>
 	</ion-card>
 </ion-content>
-<ion-footer *ngIf="this.cntAllPatients > 0">
-	<ion-buttons end>
-		<button ion-button icon-end (click)="showPatientPrompt()">
-		  	Paciente 
-		  	<ion-icon name="add"></ion-icon>
-		</button>	
-	</ion-buttons>
-</ion-footer>

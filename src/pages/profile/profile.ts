@@ -14,7 +14,6 @@ import * as moment from 'moment';
 	templateUrl: 'profile.html',
 })
 export class ProfilePage {
-
 	nutriData: any;
 	patientData: any;
 	appointment: string;
@@ -27,11 +26,19 @@ export class ProfilePage {
 		public authService: AuthService,
 		public eventService: EventService
 	) {
+		this.moment = moment;
+		this.resetProps();
+	}
+
+	ionViewDidEnter() {
+		this.resetProps();
+		this.fetchData();
+	}
+
+	resetProps() {
 		this.nutriData = {};
 		this.patientData = {};
 		this.appointment = null;
-		this.moment = moment;
-		this.fetchData();
 	}
 
 	fetchData() {

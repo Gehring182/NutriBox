@@ -17,8 +17,10 @@ export class MainPage {
 	cntLastPatientsSignedUp: number;
 	cntEvaluationFinished: number;
 	cntPatientsNoAppointment: number;
+	cntPatientsNoSignedup: number;
 	evaluationFinished: Array<any>;
 	patientsNoAppointment: Array<any>;
+	patientsNoSignedup: Array<any>;
 	lastPatientsSignedUp: Array<any>;
 
 	constructor(
@@ -42,9 +44,11 @@ export class MainPage {
 		this.cntLastPatientsSignedUp = 0;
 		this.cntEvaluationFinished = 0;
 		this.cntPatientsNoAppointment = 0;
+		this.cntPatientsNoSignedup = 0;
 		this.lastPatientsSignedUp = [];
 		this.evaluationFinished = [];
 		this.patientsNoAppointment = [];
+		this.patientsNoSignedup = [];
 	}
 
 	loadPage() {
@@ -148,6 +152,10 @@ export class MainPage {
 		this.patientsListPage({patients: this.patientsNoAppointment});
 	}
 
+	patientsNoSignupPage() {
+		this.patientsListPage({patients: this.patientsNoSignedup});
+	}
+
 	loadPatientsSignedUp() {
 		if (Boolean(this.navParams.get('lastSession'))) {
 			this.eventService.getLastUsersSignedUp(this.navParams.get('key'), this.navParams.get('lastSession'))
@@ -187,9 +195,14 @@ export class MainPage {
 			(doc) => {
 				doc.forEach((user) => {
 					this.cntAllPatients++;
-					if (!user.doc.data().appointmentDate) {
+					if (!user.doc.data().appointmentDate && user.doc.data().birth) {
 						this.patientsNoAppointment.push(user.doc.id);
 						this.cntPatientsNoAppointment++;
+					}
+
+					if (!user.doc.data().birth) {
+						this.patientsNoSignedup.push(user.doc.id);
+						this.cntPatientsNoSignedup++;
 					}
 				})
 			}

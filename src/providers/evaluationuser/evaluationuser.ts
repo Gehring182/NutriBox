@@ -2,7 +2,6 @@ import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AngularFireDatabase } from 'angularfire2/database';
-import * as firebase from 'firebase/app';
 import { EvaluationUser } from '../../models/evaluationuser.models';
 
 @Injectable()

@@ -2,7 +2,6 @@ import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
 import { Event } from '../../models/event.models';
 
 @Injectable()
@@ -22,11 +21,12 @@ export class EventService {
 		this.type = {
 			EVENT_USERS_SIGNEDUP: 1, 
 			EVENT_RESCHEDULED: 2,
-			EVENT_EVALUATION_FINISHED: 3
+			EVENT_EVALUATION_FINISHED: 3,
+			EVENT_MESSAGE: 4
 		};
 	}
 
-	create(event: Event) {
+	create(event: any) {
 		return this.eventsCollection.add(event);
 	}
 
