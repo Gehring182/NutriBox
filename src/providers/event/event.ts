@@ -80,4 +80,57 @@ export class EventService {
 				return !documentSnapshot.empty;
 		});
 	}
+
+	//Dicas para o paciente
+	getTipsToUser(uid: string) {
+		let refDb = this.afs.collection('events');
+
+		return refDb.ref
+			.where('type', '==', this.type.EVENT_MESSAGE)
+			.where('category', '==', 'Dica')
+			.where('uidto', '==', uid)
+			.orderBy('eventdate', 'asc').get().then((documentSnapshot) => {
+				return documentSnapshot.docChanges();
+		});	
+	}
+
+	//Perguntas para o paciente
+	getQuestionsToUser(uid: string) {
+		let refDb = this.afs.collection('events');
+
+		return refDb.ref
+			.where('type', '==', this.type.EVENT_MESSAGE)
+			.where('category', '==', 'Pergunta')
+			.where('uidto', '==', uid)
+			.where('answer', '==', null)
+			.orderBy('eventdate', 'asc').get().then((documentSnapshot) => {
+				return documentSnapshot.docChanges();
+		});	
+	}
+
+	//Perguntas respondidas pelo paciente
+	getQuestionsAnsweredByNutri(uid: string, date: Date) {
+		let refDb = this.afs.collection('events');
+
+		return refDb.ref
+			.where('type', '==', this.type.EVENT_MESSAGE)
+			.where('category', '==', 'Pergunta')
+			.where('uidevent', '==', uid)
+			.where('eventdate', '>=', date)
+			.orderBy('eventdate', 'asc').get().then((documentSnapshot) => {
+				return documentSnapshot.docChanges();
+		});	
+	}
+
+	getQuestionsAnsweredByPatient(uid: string) {
+		let refDb = this.afs.collection('events');
+
+		return refDb.ref
+			.where('type', '==', this.type.EVENT_MESSAGE)
+			.where('category', '==', 'Pergunta')
+			.where('uidto', '==', uid)
+			.orderBy('eventdate', 'asc').get().then((documentSnapshot) => {
+				return documentSnapshot.docChanges();
+		});	
+	}
 }

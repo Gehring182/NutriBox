@@ -43,6 +43,7 @@ export class MessagePage {
 			uidevent: this.navParams.get("nutri"),
 			uidto: this.navParams.get("key"),
 			desc: this.messageForm.value.desc,
+			answer: null,
 			category: this.messageForm.value.category
 		};
 		this.eventService.create(eventData);

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EvaluationUserService } from '../../providers/evaluationuser/evaluationuser';
+import { EventService } from '../../providers/event/event';
 
 @IonicPage()
 @Component({
@@ -9,6 +10,7 @@ import { EvaluationUserService } from '../../providers/evaluationuser/evaluation
 })
 export class EvaluationresultPage {
 
+	nutriQuestionsAnswer: Array<any>;
 	questionsAnswer: Array<any>;
 	questionsGroupAnswer: Array<any>;
 	questionsDescAnswer: Array<any>;
@@ -16,17 +18,27 @@ export class EvaluationresultPage {
 	constructor(
 		public navCtrl: NavController, 
 		public navParams: NavParams,
-		public evalUserService: EvaluationUserService
+		public evalUserService: EvaluationUserService,
+		public eventService: EventService
 	) {
+		this.nutriQuestionsAnswer = [];
 		this.questionsAnswer = [];
 		this.questionsGroupAnswer = []; 
 		this.questionsDescAnswer = [];
 
+		this.loadNutriQuestions();
 		this.loadEvaluationResult();
 	}
 
-	ionViewDidLoad() {
-	
+	loadNutriQuestions() {
+		this.eventService.getQuestionsAnsweredByPatient(this.navParams.get('key'))
+		.then((doc) => {
+				doc.forEach((question) => {
+					if (question.doc.data().answer) {
+						this.nutriQuestionsAnswer.push(question.doc.data());
+					}
+				});
+		});
 	}
 
 	loadEvaluationResult() {
@@ -50,7 +62,6 @@ export class EvaluationresultPage {
 				});
 			})
 		}).then((final) => {
-			console.log(this.questionsDescAnswer);
 		});
 	}
 

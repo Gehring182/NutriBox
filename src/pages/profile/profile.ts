@@ -14,10 +14,17 @@ import * as moment from 'moment';
 	templateUrl: 'profile.html',
 })
 export class ProfilePage {
+
 	nutriData: any;
 	patientData: any;
 	appointment: string;
 	moment: any;
+	hasQuestions: boolean;
+	hasTips: boolean;
+	questionsList: Array<object>;
+	tipsList: Array<object>;
+	questionsAnswer: object;
+	questionsSaved: object;
 
 	constructor(
 		public navCtrl: NavController, 
@@ -28,17 +35,45 @@ export class ProfilePage {
 	) {
 		this.moment = moment;
 		this.resetProps();
+		this.fetchData();
+		this.loadQuestions();
+		this.loadTips();
 	}
 
-	ionViewDidEnter() {
-		this.resetProps();
-		this.fetchData();
+	loadQuestions() {
+		this.eventService.getQuestionsToUser(this.navParams.get('key')).then(
+			(doc) => {
+				doc.forEach((question) => {
+					this.questionsAnswer[question.doc.id] = null;
+					this.hasQuestions = true;
+					this.questionsSaved[question.doc.id] = false;
+					this.questionsList.push(Object.assign({key: question.doc.id}, question.doc.data()));
+				});
+			}
+		);
+	}
+
+	loadTips() {
+		this.eventService.getTipsToUser(this.navParams.get('key')).then(
+			(doc) => {
+				doc.forEach((tip) => {
+					this.hasTips = true;
+					this.tipsList.push(tip.doc.data());
+				});
+			}
+		);
 	}
 
 	resetProps() {
 		this.nutriData = {};
 		this.patientData = {};
 		this.appointment = null;
+		this.questionsList = new Array<object>();
+		this.tipsList =  new Array<object>();
+		this.hasQuestions = false;
+		this.hasTips = false;
+		this.questionsAnswer = {};
+		this.questionsSaved = {};
 	}
 
 	fetchData() {
@@ -49,6 +84,15 @@ export class ProfilePage {
 		this.userService.getUserByUid(this.navParams.get('key')).then((doc) => {
 			this.patientData = doc;
 		});
+	}
+
+	submitAnswer(key) {
+		this.eventService.update(key, {answer: this.questionsAnswer[key], eventdate: new Date});
+		this.questionsSaved[key] = true;
+	}
+
+	onChangeAnswer(value, key) {
+		this.questionsAnswer[key] = value;
 	}
 
 	get AppointmentDate() {

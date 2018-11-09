@@ -14,14 +14,16 @@ import { PatientlistPage } from '../patientlist/patientlist';
 export class MainPage {
 
 	cntAllPatients: number;
-	cntLastPatientsSignedUp: number;
 	cntEvaluationFinished: number;
 	cntPatientsNoAppointment: number;
 	cntPatientsNoSignedup: number;
+	cntLastPatientsSignedUp: number;
+	cntPatientsAnsweredQuestion: number;
 	evaluationFinished: Array<any>;
 	patientsNoAppointment: Array<any>;
 	patientsNoSignedup: Array<any>;
 	lastPatientsSignedUp: Array<any>;
+	patientsAnsweredQuestion: Array<any>;
 
 	constructor(
 		public navCtrl: NavController, 
@@ -45,16 +47,19 @@ export class MainPage {
 		this.cntEvaluationFinished = 0;
 		this.cntPatientsNoAppointment = 0;
 		this.cntPatientsNoSignedup = 0;
+		this.cntPatientsAnsweredQuestion = 0;
 		this.lastPatientsSignedUp = [];
 		this.evaluationFinished = [];
 		this.patientsNoAppointment = [];
 		this.patientsNoSignedup = [];
+		this.patientsAnsweredQuestion = [];
 	}
 
 	loadPage() {
 		this.loadPatientsSignedUp();
 		this.loadEvaluationFinished();
 		this.loadAllPatients();
+		this.loadPatientsAnsweredQuestions();
 	}
 
 	get MainHeader() {
@@ -156,6 +161,10 @@ export class MainPage {
 		this.patientsListPage({patients: this.patientsNoSignedup});
 	}
 
+	evaluationAnsweredQuestionPage() {
+		this.patientsListPage({patients: this.patientsAnsweredQuestion});	
+	}
+
 	loadPatientsSignedUp() {
 		if (Boolean(this.navParams.get('lastSession'))) {
 			this.eventService.getLastUsersSignedUp(this.navParams.get('key'), this.navParams.get('lastSession'))
@@ -191,10 +200,12 @@ export class MainPage {
 
 	loadAllPatients() {
 		this.cntAllPatients = 0;
+
 		this.userService.getUserByNutriUid(this.navParams.get('key')).then(
 			(doc) => {
 				doc.forEach((user) => {
 					this.cntAllPatients++;
+					
 					if (!user.doc.data().appointmentDate && user.doc.data().birth) {
 						this.patientsNoAppointment.push(user.doc.id);
 						this.cntPatientsNoAppointment++;
@@ -205,6 +216,19 @@ export class MainPage {
 						this.cntPatientsNoSignedup++;
 					}
 				})
+			}
+		);
+	}
+
+	loadPatientsAnsweredQuestions() {
+		this.eventService.getQuestionsAnsweredByNutri(this.navParams.get('key'), this.navParams.get('lastSession')).then(
+			(doc) => {
+				doc.forEach((question) => {
+					if (question.doc.data().answer && !this.patientsAnsweredQuestion.includes(question.doc.data().uidto)) {
+						this.patientsAnsweredQuestion.push(question.doc.data().uidto);
+						this.cntPatientsAnsweredQuestion++;
+					}
+				});
 			}
 		);
 	}

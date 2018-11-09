@@ -24,9 +24,9 @@
 	    <ion-card-content>
 	    </ion-card-content>
 	</ion-card>
-	<ion-card>
+	<ion-card *ngIf="!patientData.evaluationAnswered">
 		<ion-card-content>
-			<ion-row padding-bottom *ngIf="!patientData.evaluationAnswered">
+			<ion-row padding-bottom>
 				<ion-col col-12 text-left no-padding>
 					<span class="alert">
 						Agilize sua consulta, respondendo o questionário de frequência alimentar!
@@ -41,12 +41,48 @@
 					</button>
 				</ion-col>
 			</ion-row>
-			<ion-row no-padding>
+		</ion-card-content>
+	</ion-card>
+	<ion-card *ngIf="hasQuestions">
+		<ion-card-header text-wrap>
+			<span class="title">{{ this.nutriData.name  + ' perguntou:' }}</span>
+		</ion-card-header>
+		<ion-card-content *ngFor="let question of questionsList">
+			<ion-row padding-bottom>
 				<ion-col col-12 text-left no-padding>
-					<button ion-button icon-end round full>
-					  	Perguntar ao nutricionista
-					  	<ion-icon name="help" large></ion-icon>
+					<span class="nutri">{{ question.desc }}</span>
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-9 no-padding>
+					<ion-item no-padding>
+						<ion-input type="text" placeholder="Resposta" (ngModel)="questionsAnswer[question.key]" (change)='onChangeAnswer($event.target.value, question.key)'></ion-input>
+					</ion-item>
+				</ion-col>
+				<ion-col col-3 *ngIf="!questionsSaved[question.key]">
+					<button ion-button color="secondary" small (click)="submitAnswer(question.key)">
+						Enviar
 					</button>
+				</ion-col>
+				<ion-col col-3 *ngIf="questionsSaved[question.key]">
+					<button ion-button color="primary" small>
+						Enviado
+					</button>
+				</ion-col>
+			</ion-row>
+		</ion-card-content>
+	</ion-card>
+	<ion-card *ngIf="hasTips">
+		<ion-card-header text-wrap>
+			<span class="title">{{ ' Dicas de ' + this.nutriData.name }}</span>
+		</ion-card-header>
+		<ion-card-content *ngFor="let tip of tipsList">
+			<ion-row padding-bottom>
+				<ion-col col-2 text-start no-padding>
+					<ion-icon name="information-circle" class="custom-icon"></ion-icon>
+				</ion-col>
+				<ion-col col-10 text-left no-padding>
+					<span class="nutri">{{ tip.desc }}</span>
 				</ion-col>
 			</ion-row>
 		</ion-card-content>

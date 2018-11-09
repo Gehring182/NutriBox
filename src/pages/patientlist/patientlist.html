@@ -35,19 +35,19 @@
 			</ion-row>
 			<ion-row *ngIf="patient.birth" no-padding>
 				<ion-col col-4 text-left>
-					<button ion-button icon-end clear (click)="showAppointmentPage(patient)" small>
+					<button ion-button right icon-end clear (click)="showAppointmentPage(patient)" small>
 						{{ patient.appointmentDate ? 'Reagendar' : 'Agendar'}}
 						<ion-icon name="calendar"></ion-icon>
 					</button>
 				</ion-col>
 				<ion-col col-4 text-left>
-					<button ion-button icon-end clear (click)="showMessagePage(patient)" small>
+					<button ion-button right icon-end clear (click)="showMessagePage(patient)" small>
 						Mensagem
 						<ion-icon name="mail"></ion-icon>
 					</button>
 				</ion-col>
 				<ion-col col-4 text-left *ngIf="patient.evaluationAnswered">
-					<button ion-button icon-end clear (click)="evaluationResultPage(patient)" small>
+					<button ion-button right icon-end clear (click)="evaluationResultPage(patient)" small>
 						Questionário
 						<ion-icon name="clipboard"></ion-icon>
 					</button>

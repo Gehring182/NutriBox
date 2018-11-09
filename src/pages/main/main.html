@@ -9,7 +9,7 @@
 	</ion-navbar>
 </ion-header>
 <ion-content>
-	<ion-card *ngIf="this.cntLastPatientsSignedUp > 0 || this.cntEvaluationFinished > 0">
+	<ion-card *ngIf="this.cntLastPatientsSignedUp > 0 || this.cntEvaluationFinished > 0 || this.cntPatientsAnsweredQuestion > 0">
 		<ion-card-header color="primary">
 			Desde seu último acesso...
 		</ion-card-header>
@@ -39,10 +39,23 @@
 						<ion-icon name="eye"></ion-icon>
 					</button>
 				</ion-col>
+			</ion-row>
+			<ion-row no-padding *ngIf="this.cntPatientsAnsweredQuestion > 0">
+				<ion-col col-2 text-center>
+					<span class="count">{{this.cntPatientsAnsweredQuestion}}</span>		
+				</ion-col>
+				<ion-col col-8 align-self-center>
+					<span class="desc">{{this.cntPatientsAnsweredQuestion == 1 ? " paciente respondeu as perguntas que você enviou." : " pacientes responderam as perguntas que você enviou."}}</span>
+				</ion-col>
+				<ion-col col-2>
+					<button ion-button icon-only clear (click)="evaluationAnsweredQuestionPage()">
+						<ion-icon name="eye"></ion-icon>
+					</button>
+				</ion-col>
 			</ion-row>		
 		</ion-card-content>
 	</ion-card>
-	<ion-card *ngIf="this.cntAllPatients > 0 || this.cntPatientsNoAppointment > 0">
+	<ion-card *ngIf="this.cntAllPatients > 0 || this.cntPatientsNoAppointment > 0 || this.cntPatientsNoSignedup > 0">
 		<ion-card-header color="primary">
 			Você possui...
 		</ion-card-header>
